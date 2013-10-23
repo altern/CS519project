@@ -1,0 +1,1 @@
+jQuery('button[data-type=block]').map(function(i, el) {return jQuery(el).attr('data-data')})
