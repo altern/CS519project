@@ -1,0 +1,17 @@
+.code_snippet {
+	font-family: Courier;
+	font-size: 11px;
+	padding: 5px;
+	margin: 1px 0 0 1px;
+	border: 1px solid grey;
+}
+ul li {
+	padding: 2px;
+	list-style: none;
+}
+ul li a {
+	/*text-decoration: none;*/
+}
+body {
+	font-family: Verdana;
+}
