@@ -106,9 +106,9 @@ function getData(url, data) {
 			if(data['continuation']) {
 				console.log("fetching next " + data['continuation'] + " items... ")
 			}
-			if(json['continuation'] > 0) {
+			if(json['continuation'] > 0 || json['continuation'] != '') {
 				data['continuation'] = json['continuation']
-				getData(url, {})
+				getData(url, data)
 			} else {
 				 $(document).ajaxStop(function () { // wait for all ajax calls to complete
 					 $('#output').html('Scripts have been successfully downloaded')
