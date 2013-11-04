@@ -14,6 +14,7 @@ var sourceCodeSnippetsList = {};
 	
 jQuery(document).ready(function() {
 	var docsUrl = 'https://www.touchdevelop.com/api/search'
+	var scriptsUrl = 'https://www.touchdevelop.com/api/scripts'
 	var data = {
 		q: '%23docs',
 		count: 100
@@ -21,16 +22,26 @@ jQuery(document).ready(function() {
 	$(window).bind('resize', function() {
         $('#output img').center();
     });
-	setLoadImage()
-	$('#output img').center()
-	getData(docsUrl, data)
+	jQuery('#download_chunks').click(function() {
+		setLoadImage()
+		$('#output img').center()
+		getChunksData(docsUrl, data)
+	})
+
+	jQuery('#download_scripts').click(function() {
+		setLoadImage()
+		$('#output img').center()
+		getData(scriptsUrl, {})
+	})
 })
+
+
 
 function setLoadImage() {
 	$('#output').html('<img src="img/load.gif" />')
 }
 
-function getData(url, data) {
+function getChunksData(url, data) {
 	$.ajax({url: url, 
 		dataType: "json",
 		data: data,
@@ -53,7 +64,7 @@ function getData(url, data) {
 			}
 			if(json['continuation'] > 0) {
 				data['continuation'] = json['continuation']
-				getData(url, data)
+				getChunksData(url, data)
 			} else {
 				 $(document).ajaxStop(function () { // wait for all ajax calls to complete
 					 $('#output').html('')
@@ -65,6 +76,42 @@ function getData(url, data) {
 						}) 
 					 })
 					//console.log(sourceCodeSnippetsList)
+				});
+			}
+		}
+	});
+}
+
+function getData(url, data) {
+	$.ajax({url: url, 
+		dataType: "json",
+		data: data,
+		success: function(json) {
+			$.each(json['items'], function(i, item) { 
+				var scriptid = item['id']
+				$.ajax({
+					url: 'https://www.touchdevelop.com/api/' + scriptid + '/successors',
+					dataType: "json",
+					success: function(json) {
+						if(json.items.length == 0) { // there are no successors
+							$.ajax({ url: "api/save_script.php",
+								data: {id: scriptid},
+								type: 'post'
+							})
+						}
+					}
+				})
+			})
+			//console.log('key: ' + key + ", value: " + value)
+			if(data['continuation']) {
+				console.log("fetching next " + data['continuation'] + " items... ")
+			}
+			if(json['continuation'] > 0) {
+				data['continuation'] = json['continuation']
+				getData(url, {})
+			} else {
+				 $(document).ajaxStop(function () { // wait for all ajax calls to complete
+					 $('#output').html('Scripts have been successfully downloaded')
 				});
 			}
 		}
@@ -104,6 +151,12 @@ function getScriptSource(scriptid) {
 			})
 			if(chunks.length > 0) {
 				sourceCodeSnippetsList[scriptid] = chunks
+				$.each(chunks, function(i, chunk_source) {
+					$.ajax({ url: "api/save_chunk.php",
+						data: {id: scriptid, chunk: chunk_source},
+						type: 'post'
+					})
+				})
 			}
 			/*$.each(chunks, function(i, chunk) {
 				console.log("	" + i + ": " + chunk)
