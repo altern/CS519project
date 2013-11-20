@@ -13,19 +13,21 @@ var sourceCodeSnippetsList = {};
 })(jQuery);
 	
 jQuery(document).ready(function() {
-	var docsUrl = 'https://www.touchdevelop.com/api/search'
+	var tutorialsUrl = 'https://www.touchdevelop.com/api/search'
 	var scriptsUrl = 'https://www.touchdevelop.com/api/scripts'
 	var data = {
-		q: '%23docs',
+		q: '%23tutorials',
 		count: 100
 	}
+    
 	$(window).bind('resize', function() {
         $('#output img').center();
     });
+    
 	jQuery('#download_chunks').click(function() {
 		setLoadImage()
 		$('#output img').center()
-		getChunksData(docsUrl, data)
+		getChunksData(tutorialsUrl, data)
 	})
 
 	jQuery('#download_scripts').click(function() {

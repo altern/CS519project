@@ -3,8 +3,8 @@
 	include('config.php');
 	include('functions.php');
 	
-	$script_id = mysql_escape_string($_POST['id']);
-	$chunk = mysql_escape_string($_POST['chunk']);
+	$script_id = mysql_escape_string($_REQUEST['id']);
+	$chunk = mysql_escape_string($_REQUEST['chunk']);
 	
 	if($script_id && $chunk) {
 		//print_r(array('id' => $id, 'chunk' => $chunk));
@@ -16,7 +16,6 @@
 			mysql_insert('script_chunks', array('script_id' => $id, 'chunk_id' => $chunk_id));
 		} else {
 			$id = download_script($script_id);
-			
 			mysql_insert('script_chunks', array('script_id' => $id, 'chunk_id' => $chunk_id));
 		}
 		if(mysql_insert_id()) {

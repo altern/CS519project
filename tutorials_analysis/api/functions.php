@@ -5,53 +5,164 @@ function mysql_insert($table, $inserts) {
 	$keys = array_keys($inserts);
 		
 	$sql = 'INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES (\''.implode('\',\'', $values).'\')';
-	//print_r($sql);
-	return mysql_query($sql);
+	
+    return mysql_query($sql);
 }
 function get_hashes($line) {
 	preg_match_all('/#(\w*)/', $line, $matches);
 	return $matches[1];
 }
 
-function download_script($script_id) {
-	$script_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_id ), true);
+function add_feature($feature) {
+    $res = mysql_query('select id from features where name = "' . $feature['name'] . '"');
+    $feature_id = mysql_result($res, 0);
+    if(empty($feature_id)) {
+        mysql_insert('features', array(
+            'name' => $feature['name'],
+            'description' => $feature['text'],
+            'source' => $feature['title']
+        ));
+        $feature_id = mysql_insert_id();
+    }
+    return $feature_id;
+}
+
+function add_tutorial($script_id, $script_name) {
+    $res = mysql_query('select id from tutorials where script_id = "' . $script_id . '"');
+    $tutorial_id = mysql_result($res, 0);
+    if(empty($tutorial_id)) {
+        if( in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes)) {
+            mysql_insert('tutorials', array(
+                'name' => $script_name,
+                'script_id' => $script_id,
+                'is_interactive' => 1
+            ));
+        } else {
+            mysql_insert('tutorials', array(
+                'name' => $script_name,
+                'script_id' => $script_id,
+                'is_interactive' => 0
+            ));
+        }
+        $tutorial_id = mysql_insert_id();
+    }
+    return $tutorial_id;
+}
+
+function add_hashtag($hash) {
+    $res = mysql_query('select id from hashtags where name = "' . $hash . '"');
+    $hashtag_id = mysql_result($res, 0);	
+    if(empty($hashtag_id)) {
+        mysql_insert('hashtags', array('name' => $hash));
+        $hashtag_id = mysql_insert_id();
+    }
+    return $hashtag_id;
+}
+
+function download_script($script_short_id) {
+	$script_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id ), true);
 	$author_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_info['userid'] ), true);
-	$script_content = file_get_contents("http://touchdevelop.com/api/" . $script_id . "/text");
+	$features_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id . '/features' ), true);
+    $features = $features_info['items'];
+	$script_content = file_get_contents("http://touchdevelop.com/api/" . $script_short_id . "/text");
 	
-	$res = mysql_query('select id from authors where author_id = "' . $script_info['userid'] . '"');
-	$author_id = mysql_result($res, 0);
+	$res1 = mysql_query('select id from authors where author_id = "' . $script_info['userid'] . '"');
+	$author_id = mysql_result($res1, 0);
 	
-	if(!$author_id) {
-		mysql_insert('authors', array('author_id' => $script_info['userid'], 'name' => $author_info['name']));
+	if(empty($author_id)) {
+		mysql_insert('authors', array(
+            'author_id' => $script_info['userid'], 
+            'name' => $author_info['name'])
+        );
 		$author_id = mysql_insert_id();
 	}
 	
 	$description = $script_info['description'];
 	
-	mysql_insert('scripts', array(
-		'content' => $script_content, 
-		'script_id' => $script_id, 
-		'date' => date("Y-m-d H:i:s", $script_info['time']), 
-		'author_id' => $author_id, 
-		'name' => $script_info['name'], 
-		'description' => $description
-	));
+    $res2 = mysql_query('select id from scripts where script_id = "' . $script_short_id . '"');
+	$script_id = mysql_result($res2, 0);
+    
+    if(!$script_id) {
+        mysql_insert('scripts', array(
+            'content' => $script_content, 
+            'script_id' => $script_short_id, 
+            'date' => date("Y-m-d H:i:s", $script_info['time']), 
+            'author_id' => $author_id, 
+            'name' => $script_info['name'], 
+            'description' => $description,
+            'positivereviews' => $script_info['positivereviews'],
+            'cumulativepositivereviews' => $script_info['cumulativepositivereviews'],
+            'installations' => $script_info['installations'],
+            'runs' => $script_info['runs']
+        ));
+        $script_id = mysql_insert_id();
+    }
 	
-	$id = mysql_insert_id();
-	
+    if(!empty($features)) {
+        foreach($features as $feature) {
+            $feature_id = add_feature($feature);
+            
+            $res3 = mysql_query('select id 
+                from scripts_features 
+                where script_id = "' . $script_id . '" 
+                and feature_id = "' . $feature_id . '"');
+            $tutorials_features_id = mysql_result($res3, 0);
+            
+            if(empty($tutorials_features_id)) {
+                mysql_insert('scripts_features', array(
+                    'script_id' => $script_id,
+                    'feature_id' => $feature_id
+                ));
+            }
+        }
+    }
+    
 	$hashes = get_hashes($description);
+    
 	if(!empty($hashes)) {
 		foreach($hashes as $hash) {
-			$res = mysql_query('select id from hashtags where name = "' . $hash . '"');
-			$hashtag_id = mysql_result($res, 0);	
-			if(!$hashtag_id) {
-				mysql_insert('hashtags', array('name' => $hash));
-				$hashtag_id = mysql_insert_id();
-			}
-			mysql_insert('script_hashtags', array('script_id' => $id, 'hashtag_id' => $hashtag_id));
+			$hashtag_id = add_hashtag($hash);
+            $res4 = mysql_query('select id 
+                        from scripts_hashtags 
+                        where script_id = "' . $script_id . '" 
+                        and hashtag_id = "' . $hashtag_id . '"');
+            $scripts_hashtags_id = mysql_result($res4, 0);
+            
+            if(empty($scripts_hashtags_id)) {
+                mysql_insert('scripts_hashtags', array(
+                    'script_id' => $script_id, 
+                    'hashtag_id' => $hashtag_id
+                ));
+            }
 		}
+        if( in_array('tutorials', $hashes) ) {
+            
+            $tutorial_id = add_tutorial($script_id, $script_info['name']);
+            
+            if(!empty($features)) {
+                foreach($features as $feature) {
+                    $feature_id = add_feature($feature);
+                    $res5 = mysql_query('select id 
+                        from tutorials_features 
+                        where tutorial_id = "' . $tutorial_id . '" 
+                        and feature_id = "' . $feature_id . '"');
+                    $tutorials_features_id = mysql_result($res5, 0);
+
+                    if(empty($tutorials_features_id)) {
+                        mysql_insert('tutorials_features', array(
+                            'tutorial_id' => $tutorial_id,
+                            'feature_id' => $feature_id
+                        ));
+                    }
+                }
+            }
+        }
 	}
-	return $id;
+    
+    
+    
+//    $features = get_features($script_id);
+	return $script_id;
 }
 	
 	
