@@ -1,0 +1,90 @@
+meta version "v2.2,js,ctx";
+meta name "Dice generator";
+meta icon "123";
+meta color "#ff9955bb";
+meta rootId "BPh5th71vItLUAufX7hbL4Tf";
+meta platform "current";
+
+action main() {
+  dataa†’board := mediaa†’create_portrait_board(480, 800);
+  dataa†’board;
+  dataa†’boarda†’post_to_wall;
+  $dice_roll := matha†’random(6) + 1;
+  if $dice_roll = 1 then {
+    arta†’Dice_1a†’post_to_wall;
+  }
+  else { if $dice_roll = 2 then {
+    arta†’Dice_2a†’post_to_wall;
+  }
+  else { if $dice_roll = 3 then {
+    arta†’Dice_3a†’post_to_wall;
+  }
+  else { if $dice_roll = 4 then {
+    arta†’Dice_4a†’post_to_wall;
+  }
+  else { if $dice_roll = 5 then {
+    arta†’Dice_5a†’post_to_wall;
+  }
+  else {
+    arta†’Dice_6a†’post_to_wall;
+  }
+  } } } } 
+  walla†’add_button("next", "");
+  dataa†’board2a†’post_to_wall;
+  dataa†’board2 := mediaa†’create_portrait_board(480, 800);
+  dataa†’board2;
+}
+
+var board : Board {
+  transient = true;
+}
+
+var Dice_1 : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/zohkkcfr";
+  transient = true;
+}
+
+var Dice_2 : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/csvgrcog";
+  transient = true;
+}
+
+var Dice_3 : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/rrrjehqq";
+  transient = true;
+}
+
+var Dice_4 : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/mdapuxtp";
+  transient = true;
+}
+
+var Dice_5 : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/gltqvofc";
+  transient = true;
+}
+
+var Dice_6 : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/szihnyqx";
+  transient = true;
+}
+
+var reset : Picture {
+  is\_resource = true;
+  url = "https://az31353.vo.msecnd.net/pub/ahqkvfse";
+  transient = true;
+}
+
+var board2 : Board {
+  transient = true;
+}
+
+var page_button : Page_Button {
+  transient = true;
+}
