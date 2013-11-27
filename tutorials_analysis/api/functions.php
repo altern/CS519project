@@ -1,12 +1,16 @@
 <?php
-
+function escape_mysql_values($value) {
+    if(is_int($value)) {
+        return $value;
+    } else {
+        return "'" . mysql_real_escape_string($value) ."'";
+    }
+}
 function mysql_insert($table, $inserts) {
-	$values = array_map('mysql_real_escape_string', array_values($inserts));
+	$values = array_map('escape_mysql_values', array_values($inserts));
 	$keys = array_keys($inserts);
-		
-	$sql = 'INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES (\''.implode('\',\'', $values).'\')';
-	
-    return mysql_query($sql);
+	$sql = 'INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES ('.implode(',', $values).')';
+	return mysql_query($sql);
 }
 function get_hashes($line) {
 	preg_match_all('/#(\w*)/', $line, $matches);
@@ -59,6 +63,10 @@ function add_hashtag($hash) {
     return $hashtag_id;
 }
 
+function isLibrary($content) {
+    return (strpos($script_content, 'meta isLibrary "yes";') !== FALSE);
+}
+
 function download_script($script_short_id) {
 	$script_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id ), true);
 	$author_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_info['userid'] ), true);
@@ -70,10 +78,16 @@ function download_script($script_short_id) {
 	$author_id = mysql_result($res1, 0);
 	
 	if(empty($author_id)) {
-		mysql_insert('authors', array(
+        mysql_insert('authors', array(
             'author_id' => $script_info['userid'], 
-            'name' => $author_info['name'])
-        );
+            'name' => $author_info['name'],
+            'join_date' => date("Y-m-d H:i:s", $author_info['time']),
+            'features' => $author_info['features'],
+            'activedays' => $author_info['activedays'],
+            'receivedpositivereviews' => $author_info['receivedpositivereviews'],
+            'subscribers' => $author_info['subscribers'],
+            'score' => $author_info['score']
+        ));
 		$author_id = mysql_insert_id();
 	}
 	
@@ -97,7 +111,13 @@ function download_script($script_short_id) {
         ));
         $script_id = mysql_insert_id();
     }
-	
+	if($script_info['islibrary'] == 'true') {
+        mysql_insert('libraries', array(
+            'name' => $script_info['name'], 
+            'library_id' => $script_short_id,
+            'description' => $description
+        ));
+    }
     if(!empty($features)) {
         foreach($features as $feature) {
             $feature_id = add_feature($feature);

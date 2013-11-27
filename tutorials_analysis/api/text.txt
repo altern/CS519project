@@ -1,0 +1,435 @@
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 9 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 12 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 24 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 48 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 149 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 233 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 534 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 535 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 536 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 541 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 608 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 612 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 686 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 754 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 770 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 884 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1119 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1307 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1340 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1432 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1485 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1520 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1522 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1524 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1701 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1702 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1784 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 1787 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2162 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2166 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2167 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2437 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2767 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2774 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2913 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 2921 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3038 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3042 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3043 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3102 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3192 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3196 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3294 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3336 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3393 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3444 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3446 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3557 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3685 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3789 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 3831 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 4135 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 4224 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 4230 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 4510 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 4517 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 4684 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 5754 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 5900 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 5979 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 6903 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 7362 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 7543 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 7544 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 7585 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 8625 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 10731 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 10732 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 10824 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 10823 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 10830 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 11425 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 11634 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 11781 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 11817 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 12094 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 12768 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 12949 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 14044 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 14451 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 14515 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 14539 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 14797 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 14838 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 26795 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 26957 
+select c.content content, t.name tutorial_name, t.is_interactive, s.script_id from chunks c 
+		select count(s.script_id) from chunks c 
+		join scripts_chunks sc on sc.chunk_id = c.id
+		join scripts s on s.id = sc.script_id
+		join tutorials t on s.id = 26996 

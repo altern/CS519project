@@ -13,10 +13,10 @@
 		$res = mysql_query('select id from scripts where script_id = "' .$script_id. '"');
 		$id = mysql_result($res, 0);
 		if($id) {
-			mysql_insert('script_chunks', array('script_id' => $id, 'chunk_id' => $chunk_id));
+			mysql_insert('scripts_chunks', array('script_id' => $id, 'chunk_id' => $chunk_id));
 		} else {
 			$id = download_script($script_id);
-			mysql_insert('script_chunks', array('script_id' => $id, 'chunk_id' => $chunk_id));
+			mysql_insert('scripts_chunks', array('script_id' => $id, 'chunk_id' => $chunk_id));
 		}
 		if(mysql_insert_id()) {
 			echo "OK";
