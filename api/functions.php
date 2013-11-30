@@ -1,4 +1,11 @@
 <?php
+
+function print_if_cli($message) {
+    if(php_sapi_name() == 'cli') {
+        print "$message \n";
+    }
+}
+
 function escape_mysql_values($value) {
     if(is_int($value)) {
         return $value;
@@ -6,12 +13,15 @@ function escape_mysql_values($value) {
         return "'" . mysql_real_escape_string($value) ."'";
     }
 }
+
 function mysql_insert($table, $inserts) {
 	$values = array_map('escape_mysql_values', array_values($inserts));
 	$keys = array_keys($inserts);
 	$sql = 'INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES ('.implode(',', $values).')';
-	return mysql_query($sql);
+    mysql_query($sql);
+	return mysql_insert_id();
 }
+
 function get_hashes($line) {
 	preg_match_all('/#(\w*)/', $line, $matches);
 	return $matches[1];
@@ -21,12 +31,11 @@ function add_feature($feature) {
     $res = mysql_query('select id from features where name = "' . $feature['name'] . '"');
     $feature_id = mysql_result($res, 0);
     if(empty($feature_id)) {
-        mysql_insert('features', array(
+        $feature_id = mysql_insert('features', array(
             'name' => $feature['name'],
             'description' => $feature['text'],
             'source' => $feature['title']
         ));
-        $feature_id = mysql_insert_id();
     }
     return $feature_id;
 }
@@ -36,19 +45,18 @@ function add_tutorial($script_id, $script_name) {
     $tutorial_id = mysql_result($res, 0);
     if(empty($tutorial_id)) {
         if( in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes)) {
-            mysql_insert('tutorials', array(
+            $tutorial_id = mysql_insert('tutorials', array(
                 'name' => $script_name,
                 'script_id' => $script_id,
                 'is_interactive' => 1
             ));
         } else {
-            mysql_insert('tutorials', array(
+            $tutorial_id = mysql_insert('tutorials', array(
                 'name' => $script_name,
                 'script_id' => $script_id,
                 'is_interactive' => 0
             ));
         }
-        $tutorial_id = mysql_insert_id();
     }
     return $tutorial_id;
 }
@@ -57,14 +65,43 @@ function add_hashtag($hash) {
     $res = mysql_query('select id from hashtags where name = "' . $hash . '"');
     $hashtag_id = mysql_result($res, 0);	
     if(empty($hashtag_id)) {
-        mysql_insert('hashtags', array('name' => $hash));
-        $hashtag_id = mysql_insert_id();
+        $hashtag_id = mysql_insert('hashtags', array('name' => $hash));
     }
     return $hashtag_id;
 }
 
 function isLibrary($content) {
     return (strpos($script_content, 'meta isLibrary "yes";') !== FALSE);
+}
+
+function add_scripts_libraries_mapping($script_data, $script_id) {
+    if(!empty($script_data['librarydependencyids'])) {
+        foreach ($script_data['librarydependencyids'] as $library_ref ) {
+            $res_lib_ref = mysql_query("select id from libraries where library_id = '$library_ref'");
+            $library_id = mysql_result($res_lib_ref , 0);
+            if(empty($library_id)) {
+                $library_script_id = download_script($library_ref);
+                $res_library_id = mysql_query("select script_id from scripts where id = $library_script_id");
+                $library_id = mysql_result($res_library_id , 0);
+            } 
+            
+            $res_scripts_libraries = mysql_query('select id 
+                from scripts_libraries 
+                where script_id = "' . $script_id . '" 
+                and library_id = "' . $library_id . '"');
+            $scripts_libraries_id = mysql_result($res_scripts_libraries, 0);
+            
+            if(empty($scripts_libraries_id)) {
+                $script_libraries_id = mysql_insert('scripts_libraries', array(
+                    'script_id' => $script_id,
+                    'library_id' => $library_id
+                ));
+                print_if_cli("  added mapping $script_id => $library_id");
+            }
+        }
+        if($script_libraries_id) { return TRUE; }
+    }
+    return FALSE;
 }
 
 function download_script($script_short_id) {
@@ -78,7 +115,7 @@ function download_script($script_short_id) {
 	$author_id = mysql_result($res1, 0);
 	
 	if(empty($author_id)) {
-        mysql_insert('authors', array(
+        $author_id = mysql_insert('authors', array(
             'author_id' => $script_info['userid'], 
             'name' => $author_info['name'],
             'join_date' => date("Y-m-d H:i:s", $author_info['time']),
@@ -88,7 +125,6 @@ function download_script($script_short_id) {
             'subscribers' => $author_info['subscribers'],
             'score' => $author_info['score']
         ));
-		$author_id = mysql_insert_id();
 	}
 	
 	$description = $script_info['description'];
@@ -97,7 +133,7 @@ function download_script($script_short_id) {
 	$script_id = mysql_result($res2, 0);
     
     if(!$script_id) {
-        mysql_insert('scripts', array(
+        $script_id = mysql_insert('scripts', array(
             'content' => $script_content, 
             'script_id' => $script_short_id, 
             'date' => date("Y-m-d H:i:s", $script_info['time']), 
@@ -109,15 +145,19 @@ function download_script($script_short_id) {
             'installations' => $script_info['installations'],
             'runs' => $script_info['runs']
         ));
-        $script_id = mysql_insert_id();
     }
+    
+    
 	if($script_info['islibrary'] == 'true') {
-        mysql_insert('libraries', array(
+        $library_id = mysql_insert('libraries', array(
             'name' => $script_info['name'], 
             'library_id' => $script_short_id,
             'description' => $description
         ));
     }
+    
+    add_scripts_libraries_mapping($script_info, $script_id);
+    
     if(!empty($features)) {
         foreach($features as $feature) {
             $feature_id = add_feature($feature);
@@ -129,7 +169,7 @@ function download_script($script_short_id) {
             $tutorials_features_id = mysql_result($res3, 0);
             
             if(empty($tutorials_features_id)) {
-                mysql_insert('scripts_features', array(
+                $tutorials_features_id = mysql_insert('scripts_features', array(
                     'script_id' => $script_id,
                     'feature_id' => $feature_id
                 ));
@@ -149,7 +189,7 @@ function download_script($script_short_id) {
             $scripts_hashtags_id = mysql_result($res4, 0);
             
             if(empty($scripts_hashtags_id)) {
-                mysql_insert('scripts_hashtags', array(
+                $scripts_hashtags_id = mysql_insert('scripts_hashtags', array(
                     'script_id' => $script_id, 
                     'hashtag_id' => $hashtag_id
                 ));
@@ -169,7 +209,7 @@ function download_script($script_short_id) {
                     $tutorials_features_id = mysql_result($res5, 0);
 
                     if(empty($tutorials_features_id)) {
-                        mysql_insert('tutorials_features', array(
+                        $tutorials_features_id = mysql_insert('tutorials_features', array(
                             'tutorial_id' => $tutorial_id,
                             'feature_id' => $feature_id
                         ));
@@ -179,10 +219,6 @@ function download_script($script_short_id) {
         }
 	}
     
-    
-    
-//    $features = get_features($script_id);
 	return $script_id;
 }
-	
 	

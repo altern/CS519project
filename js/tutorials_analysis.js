@@ -38,6 +38,20 @@ jQuery(document).ready(function() {
 		$('#output img').center()
 		getData(scriptsUrl, {})
 	})
+	jQuery('#download_libraries').click(function() {
+		setLoadImage()
+		$('#output img').center()
+		$.ajax({url: "api/map_scripts_libraries.php",
+            dataType: "text",
+            success: function(text) {
+                if(text != '0') {
+                    $('#output').html('Libraries mapping has been successfully added. Number of added mappings: ' + text);
+                } else {
+                    $('#output').html('No libraries mapping added');
+                }
+            }
+        });
+	})
 })
 
 function clearRequests () {
