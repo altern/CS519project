@@ -104,6 +104,31 @@ function add_scripts_libraries_mapping($script_data, $script_id) {
     return FALSE;
 }
 
+function add_tutorials_libraries_mapping($tutorial_ids, $library_id) {
+    
+}
+
+function add_scripts_features_mapping($features, $script_id) {
+    if(!empty($features)) {
+        foreach($features as $feature) {
+            $feature_id = add_feature($feature);
+            
+            $res = mysql_query('select id 
+                from scripts_features 
+                where script_id = "' . $script_id . '" 
+                and feature_id = "' . $feature_id . '"');
+            $tutorials_features_id = mysql_result($res, 0);
+            
+            if(empty($tutorials_features_id)) {
+                $tutorials_features_id = mysql_insert('scripts_features', array(
+                    'script_id' => $script_id,
+                    'feature_id' => $feature_id
+                ));
+            }
+        }
+    }
+}
+
 function download_script($script_short_id) {
 	$script_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id ), true);
 	$author_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_info['userid'] ), true);
@@ -158,24 +183,7 @@ function download_script($script_short_id) {
     
     add_scripts_libraries_mapping($script_info, $script_id);
     
-    if(!empty($features)) {
-        foreach($features as $feature) {
-            $feature_id = add_feature($feature);
-            
-            $res3 = mysql_query('select id 
-                from scripts_features 
-                where script_id = "' . $script_id . '" 
-                and feature_id = "' . $feature_id . '"');
-            $tutorials_features_id = mysql_result($res3, 0);
-            
-            if(empty($tutorials_features_id)) {
-                $tutorials_features_id = mysql_insert('scripts_features', array(
-                    'script_id' => $script_id,
-                    'feature_id' => $feature_id
-                ));
-            }
-        }
-    }
+    add_scripts_features_mapping($features, $script_id);
     
 	$hashes = get_hashes($description);
     

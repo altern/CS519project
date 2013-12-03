@@ -73,7 +73,7 @@
 		return TRUE;
 	}
 	
-	$scripts_sql = "
+	$tutorials_libraries_sql = "
 	SELECT distinct s.id id, s.name name
     FROM `hashtags` ht 
     JOIN scripts_hashtags sht ON sht.hashtag_id = ht.id 
@@ -81,7 +81,7 @@
     where 
     ht.name in ('tutorials', 'stepbystep', 'stepByStep')";
 	
-	$res = mysql_query($scripts_sql);
+	$res = mysql_query($tutorials_libraries_sql);
 	$chunks = array();
     while($script = mysql_fetch_assoc($res)) {
 		
