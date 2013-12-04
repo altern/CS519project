@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
 	jQuery('#download_chunks').click(function() {
 		setLoadImage()
 		$('#output img').center()
-		getChunksData(tutorialsUrl, data)
+		getChunksData(tutorialsUrl, data);
 	})
 
 	jQuery('#download_scripts').click(function() {

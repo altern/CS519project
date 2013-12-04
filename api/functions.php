@@ -28,7 +28,7 @@ function get_hashes($line) {
 }
 
 function add_feature($feature) {
-    $res = mysql_query('select id from features where name = "' . $feature['name'] . '"');
+    $res = mysql_query('select id from features where name = "' . $feature . '"');
     $feature_id = mysql_result($res, 0);
     if(empty($feature_id)) {
         $feature_id = mysql_insert('features', array(
@@ -40,22 +40,31 @@ function add_feature($feature) {
     return $feature_id;
 }
 
-function add_tutorial($script_id, $script_name) {
-    $res = mysql_query('select id from tutorials where script_id = "' . $script_id . '"');
+function add_tutorial($script_id, $script_name, $is_interactive = 1, $features = array()) {
+    $res = mysql_query('select id from tutorials where script_id = ' . $script_id . ' and is_interactive = '.$is_interactive);
     $tutorial_id = mysql_result($res, 0);
     if(empty($tutorial_id)) {
-        if( in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes)) {
-            $tutorial_id = mysql_insert('tutorials', array(
-                'name' => $script_name,
-                'script_id' => $script_id,
-                'is_interactive' => 1
-            ));
-        } else {
-            $tutorial_id = mysql_insert('tutorials', array(
-                'name' => $script_name,
-                'script_id' => $script_id,
-                'is_interactive' => 0
-            ));
+        $tutorial_id = mysql_insert('tutorials', array(
+            'name' => $script_name,
+            'script_id' => $script_id,
+            'is_interactive' => $is_interactive
+        ));
+    }
+    if(!empty($features)) {
+        foreach($features as $feature) {
+            $feature_id = add_feature($feature);
+            $res5 = mysql_query('select id 
+                from tutorials_features 
+                where tutorial_id = "' . $tutorial_id . '" 
+                and feature_id = "' . $feature_id . '"');
+            $tutorials_features_id = mysql_result($res5, 0);
+
+            if(empty($tutorials_features_id)) {
+                $tutorials_features_id = mysql_insert('tutorials_features', array(
+                    'tutorial_id' => $tutorial_id,
+                    'feature_id' => $feature_id
+                ));
+            }
         }
     }
     return $tutorial_id;
@@ -129,6 +138,203 @@ function add_scripts_features_mapping($features, $script_id) {
     }
 }
 
+function find_chunks($lines, $chunks) {
+    $last_chunk = array_slice($chunks, -1)[0];
+    // print_r($last_chunk);
+    foreach($lines as $match_line_num => $line) {
+
+        if(strpos($line, $last_chunk) !== FALSE) {
+            //echo "Found chunk '$last_chunk' at line $match_line_num: '$line' \n";
+            if(count($chunks) > 1) {
+                $without_last_chunk = array_slice($chunks, 0, count($chunks) - 1);
+                $prev_match_line_num = find_chunks($lines, $without_last_chunk);
+                if($prev_match_line_num < $match_line_num) {
+                    return $match_line_num;
+                } else {
+                    echo "Order of chunks does not match\n";
+                    return FALSE;
+                }
+            } else {
+                return $match_line_num;
+            }
+        }
+    }
+    return FALSE;
+}
+
+function add_chunk($chunk, $short_script_id, $seq) {
+//    print_if_cli('select id from chunks where content = "' .mysql_escape_string($chunk). '"');
+    $res = mysql_query('select id from chunks where content = "' .mysql_escape_string($chunk). '"');
+    $chunk_id = mysql_result($res, 0);
+    if(empty($chunk_id)) {
+        $chunk_id = mysql_insert('chunks', array('content' => $chunk) );
+    }
+    
+    $res2 = mysql_query('select id from scripts where script_id = "' .$short_script_id. '"');
+    $script_id = mysql_result($res2, 0);
+    
+    if(empty($script_id)) {
+        $script_id = download_script($short_script_id);
+    }
+    
+    $res3 = mysql_query('select id from scripts_chunks where script_id = ' .$script_id. ' and chunk_id = ' . $chunk_id .' and seq = '.$seq);
+    $scripts_chunks_id = mysql_result($res3, 0);
+    if(empty($scripts_chunks_id)) {
+        $scripts_chunks_id = mysql_insert('scripts_chunks', array('script_id' => $script_id, 'chunk_id' => $chunk_id, 'seq' => $seq));
+    }
+    return $scripts_chunks_id;
+}
+
+function detect_chunks_for_noninteractive($script_source) {
+    $lines = array();
+    $chunk = array();
+    $chunks = array();
+    $chunkCount = 0;
+    $chunkFlag = false;
+    $mainFlag = false;
+
+    $lines = explode("\n", $script_source);
+
+    foreach($lines as $line_with_whitespace) {
+        $line = preg_replace('/^\s{2}/', '', $line_with_whitespace);
+
+        if(strpos($line, "//") === FALSE ) {
+            //print_if_cli($line);
+            if($mainFlag && strpos($line, '}') !== FALSE ) {
+                $mainFlag = false;
+                $chunkFlag = false;
+            }
+            if($mainFlag) {
+                $chunkFlag = true;
+                $chunk[] = $line;
+            } elseif(strpos($line, 'action main() {') !== FALSE ) {
+                $mainFlag = true;
+            }
+        } elseif($chunkFlag) {
+            $chunks[] = implode("\n", $chunk);
+            $chunk = array();
+            $chunkFlag = false;
+        }
+    }
+    
+    return $chunks;
+}
+
+function detect_chunks_for_interactive($script_source) {
+    $lines = array();
+    $chunks = array();
+    $chunkCount = 0;
+    $chunkFlag = false;
+    $mainFlag = false;
+
+    $lines = explode("\n", $script_source);
+
+    foreach($lines as $line_with_whitespace) {
+        $line = preg_replace('/^\s{2}/', '', $line_with_whitespace);
+
+        if(strpos($line, "//") === FALSE ) {
+            //print_if_cli($line);
+            if($mainFlag && strpos($line, '}') !== FALSE ) {
+                $mainFlag = false;
+                $chunkFlag = false;
+            }
+            if($mainFlag) {
+                $chunkFlag = true;
+                $chunks[] = $line;
+            } elseif(strpos($line, 'action main() {') !== FALSE ) {
+                $mainFlag = true;
+            }
+        } elseif($chunkFlag) {
+            $chunkFlag = false;
+        }
+    }
+    
+    return $chunks;
+}
+
+
+function map_tutorials_to_scripts($tutorial_id, $script_id, $is_completed) {
+    $query = 'select id 
+            from tutorials_by_author 
+            where author_id = (select author_id from scripts where id = ' . $script_id . ') 
+            and tutorial_id = (select id from tutorials where script_id = ' . $tutorial_id . ')
+            and is_completed = ' . $is_completed ;
+    // print $query. "\n";
+    $res = mysql_query($query);
+    $tutorials_by_author_id = mysql_result($res, 0);
+
+    if(empty($tutorials_by_author_id)) {
+        $query = 'insert into tutorials_by_author (author_id, tutorial_id, is_completed) values (
+            (select author_id from scripts where id = ' . $script_id . '),
+            (select id from tutorials where script_id = ' . $tutorial_id . '),
+            '.$is_completed.'
+        )';
+        //print $query."\n";
+        $res2 = mysql_query($query);
+        if(!$res2) {
+            echo mysql_error($res2);
+            return FALSE;
+        }
+    }
+    
+    $tutorial_id_sql = 'select id from tutorials where script_id = ' . $tutorial_id ;
+    $res5 = mysql_query($tutorial_id_sql);
+    $tutorial_id = mysql_result($res5, 0);
+
+    $query = 'select id 
+            from scripts_tutorials 
+            where script_id = ' . $script_id . ' 
+            and tutorial_id = ' . $tutorial_id;
+    //print $query . "\n";
+    $res3 = mysql_query($query);
+
+    $scripts_tutorials_id = mysql_result($res3, 0);
+
+    if(empty($scripts_tutorials_id)) {
+        $res4 = mysql_insert('scripts_tutorials', array(
+            'script_id' => $script_id,
+            'tutorial_id' => $tutorial_id
+        ));
+        if(!$res4) {
+            echo mysql_error($res4);
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+function add_hash($hash, $script_id) {
+    $hashtag_id = add_hashtag($hash);
+    $res4 = mysql_query('select id 
+                from scripts_hashtags 
+                where script_id = "' . $script_id . '" 
+                and hashtag_id = "' . $hashtag_id . '"');
+    $scripts_hashtags_id = mysql_result($res4, 0);
+
+    if(empty($scripts_hashtags_id)) {
+        $scripts_hashtags_id = mysql_insert('scripts_hashtags', array(
+            'script_id' => $script_id, 
+            'hashtag_id' => $hashtag_id
+        ));
+    }
+}
+
+function add_scripts_tutorials_mapping($script_id, $script_name, $hashes, $features) {
+    $tutorial_id = null;
+	
+    foreach($hashes as $hash) {
+        add_hash($hash, $script_id);
+    }
+    
+    if (in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes) || in_array('interactiveTutorial', $hashes)) {
+        $tutorial_id = add_tutorial($script_id, $script_name, 1, $features);
+    } elseif( in_array('tutorials', $hashes) || in_array('docs', $hashes)) {
+        $tutorial_id = add_tutorial($script_id, $script_name, 0, $features);
+    }  
+    
+	return $tutorial_id;
+}
+
 function download_script($script_short_id) {
 	$script_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id ), true);
 	$author_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_info['userid'] ), true);
@@ -185,47 +391,11 @@ function download_script($script_short_id) {
     
     add_scripts_features_mapping($features, $script_id);
     
-	$hashes = get_hashes($description);
+    $features = array_map(function($feature) {return $feature['name'];}, $features);
     
-	if(!empty($hashes)) {
-		foreach($hashes as $hash) {
-			$hashtag_id = add_hashtag($hash);
-            $res4 = mysql_query('select id 
-                        from scripts_hashtags 
-                        where script_id = "' . $script_id . '" 
-                        and hashtag_id = "' . $hashtag_id . '"');
-            $scripts_hashtags_id = mysql_result($res4, 0);
-            
-            if(empty($scripts_hashtags_id)) {
-                $scripts_hashtags_id = mysql_insert('scripts_hashtags', array(
-                    'script_id' => $script_id, 
-                    'hashtag_id' => $hashtag_id
-                ));
-            }
-		}
-        if( in_array('tutorials', $hashes) ) {
-            
-            $tutorial_id = add_tutorial($script_id, $script_info['name']);
-            
-            if(!empty($features)) {
-                foreach($features as $feature) {
-                    $feature_id = add_feature($feature);
-                    $res5 = mysql_query('select id 
-                        from tutorials_features 
-                        where tutorial_id = "' . $tutorial_id . '" 
-                        and feature_id = "' . $feature_id . '"');
-                    $tutorials_features_id = mysql_result($res5, 0);
-
-                    if(empty($tutorials_features_id)) {
-                        $tutorials_features_id = mysql_insert('tutorials_features', array(
-                            'tutorial_id' => $tutorial_id,
-                            'feature_id' => $feature_id
-                        ));
-                    }
-                }
-            }
-        }
-	}
+    $hashes = get_hashes($description);
+    
+	add_scripts_tutorials_mapping($script_id, $script_info['name'], $hashes, $features);
     
 	return $script_id;
 }

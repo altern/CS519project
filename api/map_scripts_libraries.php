@@ -7,8 +7,8 @@
     
 //    $scripts_sql = "select script_id, id from scripts where id not in (select script_id from scripts_libraries) ";
 //    $scripts_sql = "select script_id, id from scripts where script_id = 'hzawjnll'";
-    $tutorials_libraries_sql = "select script_id, id from scripts";
-    $res = mysql_query($tutorials_libraries_sql);
+    $tutorials_sql = "select script_id, id from scripts";
+    $res = mysql_query($tutorials_sql);
     $mapping_count = 0;
     $row_count = 0;
     $total_row_count = mysql_num_rows($res);
