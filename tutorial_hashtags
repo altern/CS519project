@@ -1,9 +1,12 @@
 non-interactive:
 
-guidedTutorial
-tutorials
+#docs
+#tutorials
 
 interactive:
 
-interactiveTutorial
-stepByStep
+#interactiveTutorial
+#stepByStep
+
+scripts created using interactive tutorials:
+#guidedTutorial
