@@ -1,35 +1,27 @@
 <?php
 
-function find_chunks($lines, $chunks) {
-	$last_chunk = array_slice($chunks, -1)[0];
-	// print_r($last_chunk);
-	foreach($lines as $match_line_num => $line) {
-		
-		if(strpos($line, $last_chunk) !== FALSE) {
-			echo "Found chunk '$last_chunk' at line $match_line_num: '$line' \n";
-			if(count($chunks) > 1) {
-				$without_last_chunk = array_slice($chunks, 0, count($chunks) - 1);
-				$prev_match_line_num = find_chunks($lines, $without_last_chunk);
-				if($prev_match_line_num < $match_line_num) {
-					return $match_line_num;
-				} else {
-					echo "Order of chunks does not match\n";
-					return FALSE;
-				}
-			} else {
-				return $match_line_num;
-			}
-		}
-	}
-	return FALSE;
+include_once('functions.php');
+
+$url = '';
+
+$tutorial_id = 'esih';
+$tutorial_source = file_get_contents("http://www.touchdevelop.com/api/$tutorial_id/text");
+$chunks = detect_chunks($tutorial_source);
+
+$scripts_to_test = array('uvzeeoij','vebbxyvk','ljyqxrjn','wfextfvj','iucvkant', 'yibpzupx', 'wgxzovkv',
+'jykqhxsu',
+'llyyjpxx',
+'rhnsa',
+'nfjn');
+
+foreach($scripts_to_test as $script_id) {
+    $script_source = file_get_contents("http://www.touchdevelop.com/api/$script_id/text");
+    print_if_cli("Trying to find chunks from tutorial $tutorial_id in script $script_id... ");
+    $result = find_chunks(explode("\n", $script_source), $chunks);
+    if($result) {
+        print_if_cli("  Found chunk at line $result" );
+    } else {
+        print_if_cli("  Not found");
+    }
 }
-	
-
-$lines = array('123', 'aaaa', '567', '678');
-$chunks = array('123', '678', '567');
-
-echo "Result of find_chunks: " . find_chunks($lines, $chunks) . "\n";
-
-print_r(array_slice($lines, 0 ,3))
-
 ?>

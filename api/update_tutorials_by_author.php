@@ -41,6 +41,10 @@
 	while($script = mysql_fetch_assoc($res3)) {
 		$lines = explode("\n", $script['content']);
 		foreach($chunks as $script_id => $chunks_list) {
+            if(count($chunks_list) < 2) {
+                print_if_cli("Skipping set of chunks. " .count($chunks_list). " chunk(s) is not enough to establish mapping ");
+                continue;
+            }
 			if(find_chunks($lines, $chunks_list)) {
 				print_if_cli("FOUND all chunks (from script id " .$script_id. ") in script with id " . $script['id']);
 				if(map_tutorials_to_scripts($script_id, $script['id'], 1)) {

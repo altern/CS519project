@@ -3,11 +3,14 @@
 	include('functions.php');
 //	ini_set('max_execution_time', 60*20);
     
-    error_reporting(E_ERROR);
+    error_reporting(E_ALL);
     
 //    $scripts_sql = "select script_id, id from scripts where id not in (select script_id from scripts_libraries) ";
 //    $scripts_sql = "select script_id, id from scripts where script_id = 'hzawjnll'";
-    $tutorials_sql = "select t.script_id tutorial_id, sl.library_id library_id from tutorials t join scripts s on t.script_id = s.id join scripts_libraries sl on sl.script_id = s.id";
+    $tutorials_sql = "select t.script_id tutorial_id, sl.library_id library_id 
+        from tutorials t 
+        join scripts s on t.script_id = s.id 
+        join scripts_libraries sl on sl.script_id = s.id";
     
     $res = mysql_query($tutorials_sql);
     $mapping_count = 0;

@@ -29,7 +29,7 @@
         
         $hashes = get_hashes($tutorial_row['description']);
         
-        if(add_scripts_tutorials_mapping($tutorial_row['id'], $tutorial_row['script_name'], $hashes, $features)) {
+        if(add_scripts_tutorials_mapping($tutorial_row['id'], $tutorial_row['script_name'], $hashes, $features, $tutorial_row['content'])) {
             print_if_cli(" $row_count / $total_row_count | Added scripts -> tutorials mapping mapping for ".$tutorial_row['script_id']. " (".$tutorial_row['id'].") ");
             $mapping_count++;
         }

@@ -7,7 +7,7 @@ function print_if_cli($message) {
 }
 
 function escape_mysql_values($value) {
-    if(is_int($value)) {
+    if(is_int($value) || is_bool($value) ) {
         return $value;
     } else {
         return "'" . mysql_real_escape_string($value) ."'";
@@ -148,10 +148,11 @@ function find_chunks($lines, $chunks) {
             if(count($chunks) > 1) {
                 $without_last_chunk = array_slice($chunks, 0, count($chunks) - 1);
                 $prev_match_line_num = find_chunks($lines, $without_last_chunk);
+                if($prev_match_line_num === FALSE) {return FALSE;}
                 if($prev_match_line_num < $match_line_num) {
                     return $match_line_num;
                 } else {
-                    echo "Order of chunks does not match\n";
+                    print_if_cli( "Order of chunks does not match");
                     return FALSE;
                 }
             } else {
@@ -164,20 +165,26 @@ function find_chunks($lines, $chunks) {
 
 function add_chunk($chunk, $short_script_id, $seq) {
 //    print_if_cli('select id from chunks where content = "' .mysql_escape_string($chunk). '"');
-    $res = mysql_query('select id from chunks where content = "' .mysql_escape_string($chunk). '"');
+    if(!$res = mysql_query('select id from chunks where content = "' .mysql_escape_string($chunk). '"')) {
+        print_if_cli(mysql_error());
+    }
     $chunk_id = mysql_result($res, 0);
     if(empty($chunk_id)) {
         $chunk_id = mysql_insert('chunks', array('content' => $chunk) );
     }
     
-    $res2 = mysql_query('select id from scripts where script_id = "' .$short_script_id. '"');
+    if(!$res2 = mysql_query('select id from scripts where script_id = "' .$short_script_id. '"')) {
+        print_if_cli(mysql_error());
+    }
     $script_id = mysql_result($res2, 0);
     
     if(empty($script_id)) {
         $script_id = download_script($short_script_id);
     }
     
-    $res3 = mysql_query('select id from scripts_chunks where script_id = ' .$script_id. ' and chunk_id = ' . $chunk_id .' and seq = '.$seq);
+    if(!$res3 = mysql_query('select id from scripts_chunks where script_id = ' .$script_id. ' and chunk_id = ' . $chunk_id .' and seq = '.$seq)) {
+        print_if_cli(mysql_error());
+    }
     $scripts_chunks_id = mysql_result($res3, 0);
     if(empty($scripts_chunks_id)) {
         $scripts_chunks_id = mysql_insert('scripts_chunks', array('script_id' => $script_id, 'chunk_id' => $chunk_id, 'seq' => $seq));
@@ -185,42 +192,7 @@ function add_chunk($chunk, $short_script_id, $seq) {
     return $scripts_chunks_id;
 }
 
-function detect_chunks_for_noninteractive($script_source) {
-    $lines = array();
-    $chunk = array();
-    $chunks = array();
-    $chunkCount = 0;
-    $chunkFlag = false;
-    $mainFlag = false;
-
-    $lines = explode("\n", $script_source);
-
-    foreach($lines as $line_with_whitespace) {
-        $line = preg_replace('/^\s{2}/', '', $line_with_whitespace);
-
-        if(strpos($line, "//") === FALSE ) {
-            //print_if_cli($line);
-            if($mainFlag && strpos($line, '}') !== FALSE ) {
-                $mainFlag = false;
-                $chunkFlag = false;
-            }
-            if($mainFlag) {
-                $chunkFlag = true;
-                $chunk[] = $line;
-            } elseif(strpos($line, 'action main() {') !== FALSE ) {
-                $mainFlag = true;
-            }
-        } elseif($chunkFlag) {
-            $chunks[] = implode("\n", $chunk);
-            $chunk = array();
-            $chunkFlag = false;
-        }
-    }
-    
-    return $chunks;
-}
-
-function detect_chunks_for_interactive($script_source) {
+function detect_chunks($script_source) {
     $lines = array();
     $chunks = array();
     $chunkCount = 0;
@@ -230,7 +202,7 @@ function detect_chunks_for_interactive($script_source) {
     $lines = explode("\n", $script_source);
 
     foreach($lines as $line_with_whitespace) {
-        $line = preg_replace('/^\s{2}/', '', $line_with_whitespace);
+        $line = preg_replace('/^\s*/', '', $line_with_whitespace);
 
         if(strpos($line, "//") === FALSE ) {
             //print_if_cli($line);
@@ -241,7 +213,7 @@ function detect_chunks_for_interactive($script_source) {
             if($mainFlag) {
                 $chunkFlag = true;
                 $chunks[] = $line;
-            } elseif(strpos($line, 'action main() {') !== FALSE ) {
+            } elseif(preg_match("/action (.*)main\(\) {/", $line) ) {
                 $mainFlag = true;
             }
         } elseif($chunkFlag) {
@@ -319,20 +291,25 @@ function add_hash($hash, $script_id) {
     }
 }
 
-function add_scripts_tutorials_mapping($script_id, $script_name, $hashes, $features) {
+function add_scripts_tutorials_mapping($script_id, $script_name, $hashes, $features, $script_content) {
     $tutorial_id = null;
 	
     foreach($hashes as $hash) {
         add_hash($hash, $script_id);
     }
     
-    if (in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes) || in_array('interactiveTutorial', $hashes)) {
-        $tutorial_id = add_tutorial($script_id, $script_name, 1, $features);
-    } elseif( in_array('tutorials', $hashes) || in_array('docs', $hashes)) {
-        $tutorial_id = add_tutorial($script_id, $script_name, 0, $features);
-    }  
+    $tutorial_id = add_tutorial($script_id, $script_name, is_interactive($script_content), $features);
     
 	return $tutorial_id;
+}
+
+function is_interactive($script_content) {
+    return preg_match("{template:(.*)}", $script_content);
+//    if (in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes) || in_array('interactiveTutorial', $hashes)) {
+//        return TRUE;
+//    } elseif( in_array('tutorials', $hashes) || in_array('docs', $hashes)) {
+//        return FALSE;
+//    } 
 }
 
 function download_script($script_short_id) {
@@ -395,7 +372,7 @@ function download_script($script_short_id) {
     
     $hashes = get_hashes($description);
     
-	add_scripts_tutorials_mapping($script_id, $script_info['name'], $hashes, $features);
+	add_scripts_tutorials_mapping($script_id, $script_info['name'], $hashes, $features, $script_content);
     
 	return $script_id;
 }
