@@ -1,9 +1,11 @@
-name,script_id,date,successors,completions
-first steps with turtle,wieya,10/24/2013 0:56,1737,1303
-beatbox tutorial,esih,6/18/2013 23:17,1478,840
-hello world,rdjh,10/31/2013 16:29,516,431
-monster slicer tutorial,ybkm,10/23/2013 22:25,64,44
-Dice tutorial,nuri,10/2/2013 14:03,36,36
-first steps with drawing,inebpzcv,10/19/2013 3:18,31,30
-magic 8 ball tutorial,vvpx,9/27/2013 22:45,14,11
-Tin Can Shoot Tutorial,ldsoa,9/30/2013 0:42,1,1
+name,script_id,publication date,date,successors,completions
+first steps with turtle,wieya,26/03/2013 05:25,10/24/2013 0:56,1737,1303
+beatbox tutorial,esih,18/06/2013 20:50,6/18/2013 23:17,1478,840
+hello world,rdjh,4/10/2013 0:43,10/31/2013 16:29,516,431
+monster slicer tutorial,ybkm,14/05/2013 08:44,10/23/2013 22:25,64,44
+Dice tutorial,nuri,1/10/2013 11:55,10/2/2013 14:03,36,36
+first steps with drawing,inebpzcv,31/05/2013 01:23,10/19/2013 3:18,31,30
+magic 8 ball tutorial,vvpx,14/06/2013 08:42,9/27/2013 22:45,14,11
+Tin Can Shoot Tutorial,ldsoa,24/09/2013 22:15 ,9/30/2013 0:42,1,1
+,,,,484.625,337
+,,,,50,40

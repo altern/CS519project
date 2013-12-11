@@ -1,8 +1,10 @@
-name,script_id,date,successors,completions
-song shaker,lfzo,11/12/2013 8:32,2175,1891
-dev bootcamp,bbxr,11/12/2013 8:42,1258,729
-first steps with turtle,psbd,4/12/2013 18:00,780,599
-monster slicer,cbqyhblv,5/15/2013 18:16,114,59
-from blocks to text,tuxi,11/7/2013 2:48,4,4
-polyglot search tutorial,wwcv,6/20/2013 17:31,3,3
-bubble popper tutorial,uweda,6/5/2013 7:25,2,2
+name,script_id,publication date,date,successors,completions
+song shaker,lfzo,4/5/2013 0:16,11/12/2013 8:32,2175,1891
+dev bootcamp,bbxr,26/03/2013 12:53 ,11/12/2013 8:42,1258,729
+first steps with turtle,psbd,26/03/2013 05:25,4/12/2013 18:00,780,599
+monster slicer,cbqyhblv,14/05/2013 08:44,5/15/2013 18:16,114,59
+from blocks to text,tuxi,10/4/2013 20:52,11/7/2013 2:48,4,4
+polyglot search tutorial,wwcv,20/06/2013 08:20,6/20/2013 17:31,3,3
+bubble popper tutorial,uweda,15/05/2013 08:42,6/5/2013 7:25,2,2
+,,,,619.4285714,469.5714286
+,,,,114,59

@@ -24,14 +24,23 @@ function get_base($script_id) {
 }
 
 $script_ids = array(
-    'wieya',
-    'esih',
-    'rdjh',
-    'ybkm',
-    'nuri',
-    'inebpzcv',
-    'vvpx',
-    'ldsoa',
+//    'wieya',
+//    'esih',
+//    'rdjh',
+//    'ybkm',
+//    'nuri',
+//    'inebpzcv',
+//    'vvpx',
+//    'ldsoa',
+    
+    'lfzo',
+    'bbxr',
+    'psbd',
+    'cbqyhblv',
+    'tuxi',
+    'wwcv',
+    'uweda',
+
 );
 
 foreach($script_ids as $script_id ) {
