@@ -28,9 +28,9 @@
         $authors_libraries_id = mysql_result($res, 0);
         if(empty($authors_libraries_id)) {
             if(mysql_insert('authors_learned_libraries', array(
-                'author_id' => $authors_features_row['author_id'],
-                'library_id' => $authors_features_row['library_id'],
-                'date' => $authors_features_row['date']
+                'author_id' => $authors_row['author_id'],
+                'library_id' => $authors_row['library_id'],
+                'date' => $authors_row['date']
             ))) {
                 print_if_cli(" $row_count / $total_row_count | Added authors -> libraries mapping: ".$authors_libraries_row['author_name']." (".$authors_libraries_row['author_id'].") => ".$authors_libraries_row['feature_name']. " (".$authors_libraries_row['feature_id'].") ");
                 $mapping_count++;
