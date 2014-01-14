@@ -27,8 +27,15 @@ function get_hashes($line) {
 	return $matches[1];
 }
 
+/**
+ * Saves feature in a database
+ * @param json array $feature
+ * @return int
+ */
 function add_feature($feature) {
-    $res = mysql_query('select id from features where name = "' . $feature . '"');
+    
+    $feature_name = (isset($feature['name']) ? $feature['name'] : $feature);
+    $res = mysql_query('select id from features where name = "' . $feature_name . '"');
     $feature_id = mysql_result($res, 0);
     if(empty($feature_id)) {
         $feature_id = mysql_insert('features', array(
@@ -303,8 +310,26 @@ function add_scripts_tutorials_mapping($script_id, $script_name, $hashes, $featu
 	return $tutorial_id;
 }
 
+
+$tutorial_hashes = array('docs', 'tutorials', 'stepbystep');
+
+function is_tutorial($hashes) {
+    global $tutorial_hashes;
+    foreach($tutorial_hashes as $tutorial_hash) {
+        if(in_array($tutorial_hash, $hashes)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function generateWhereClauseForTutorials() {
+    global $tutorial_hashes;
+    return "(" . implode(', ', array_map( function($elem) { return "'" .$elem. "'" ; } , $tutorial_hashes)) . ")";
+}
+
 function is_interactive($script_content) {
-    return preg_match("{template:(.*)}", $script_content);
+    return preg_match("/00230_/", $script_content);
 //    if (in_array('stepbystep', $hashes) || in_array('stepByStep', $hashes) || in_array('interactiveTutorial', $hashes)) {
 //        return TRUE;
 //    } elseif( in_array('tutorials', $hashes) || in_array('docs', $hashes)) {
@@ -372,8 +397,133 @@ function download_script($script_short_id) {
     
     $hashes = get_hashes($description);
     
-	add_scripts_tutorials_mapping($script_id, $script_info['name'], $hashes, $features, $script_content);
+//	add_scripts_tutorials_mapping($script_id, $script_info['name'], $hashes, $features, $script_content);
     
 	return $script_id;
 }
 	
+
+function output_request_short ($request, $request_num) {
+    print '<h2>' .$request['name']. '</h2>';
+    print '<div class="sql">' . SqlFormatter::format( $request['query'] ) . '</div>';
+    global $script_url;
+    if(isset($request['skip']) && $request['skip']) {
+        print '<h4>SKIPPED (<a href="'.$script_url.'?request_num='.$request_num.'" target="_new">Run query in separate window</a>)</h4>';
+    } else {
+        if(!$res = mysql_query($request['query'])) {
+            print mysql_error();
+        }
+        $cols_count = mysql_num_fields($res);
+        $rows_count = mysql_num_rows($res);
+        $row_count = 0 ;
+        $fields = mysql_num_fields($res);
+        if($rows_count == 0) {
+            print "<h4>EMPTY</h4>";
+        } else {
+            print '<table border="1">';
+            for ($i=0; $i < $fields; $i++) { 
+                print "<th>".mysql_field_name($res, $i)."</th>"; 
+            }
+            while( $row = mysql_fetch_row($res) ) {
+                echo "<tr>";
+                for ($f=0; $f < $cols_count; $f++) {
+                    echo "<td>{$row[$f]}</td>"; 
+                }
+                if($row_count++ > ROWS_LIMIT) {
+                    print '<tr><td colspan="' .$cols_count. '"><a href="'.$script_url.'?request_num='.$request_num.'">More ('.$rows_count.')...</a></td></tr>';
+                    break;
+                }
+                echo "</tr>\n";
+            }
+            print "</table>";
+        }
+        print "<hr />";
+    }
+	//print "<br /><br />";
+}
+
+function output_request_long ($request_num) {
+    global $data, $script_url, $save_csv_script;
+    $request = $data[$request_num];
+    print '<h2>' .$request['name']. '</h2>';
+    $links_row = '<a href="'.$script_url.'">Go back</a> | <a href="'.$save_csv_script.'?download_csv='.$request_num.'">Download CSV</a>';
+    print $links_row;
+    print "<br /><br />";
+    print '<div class="sql">' . SqlFormatter::format( $request['query'] ) . '</div>';
+	$res = mysql_query($request['query']);
+	$cols_count = mysql_num_fields($res);
+	$rows_count = mysql_num_rows($res);
+	$row_count = 0 ;
+	$fields = mysql_num_fields($res);
+    if($rows_count == 0) {
+        print "<h3>EMPTY</h3>";
+    } else {
+        print '<table border="1">';
+        for ($i=0; $i < $fields; $i++) { 
+            print "<th>".mysql_field_name($res, $i)."</th>"; 
+        }
+        while( $row = mysql_fetch_row($res) ) {
+            echo "<tr>";
+            for ($f=0; $f < $cols_count; $f++) {
+                echo "<td>{$row[$f]}</td>"; 
+            }
+//            if($row_count++ > ROWS_LIMIT) {
+//                print '<tr><td colspan="' .$cols_count. '"><a href="'.$script_url.'?request_num='.$request_num.'">More...</a></td></tr>';
+//                break;
+//            }
+            echo "</tr>\n";
+        }
+        print "</table>";
+    }
+	print "<br />";
+    
+    print $links_row;
+}
+
+function export_query_results($request_num) {
+    global $data;
+    $request = $data[$request_num];
+    $select = $request['query'];
+    
+    $export = mysql_query ( $select ) or die ( "Sql error : " . mysql_error( ) );
+
+    $fields = mysql_num_fields ( $export );
+
+    for ( $i = 0; $i < $fields; $i++ )
+    {
+        $header .= mysql_field_name( $export , $i ) . ",\t";
+    }
+
+    while( $row = mysql_fetch_row( $export ) )
+    {
+        $line = '';
+        foreach( $row as $value )
+        {                                            
+            if ( ( !isset( $value ) ) || ( $value == "" ) )
+            {
+                $value = ",\t";
+            }
+            else
+            {
+                //$value = str_replace( '"' , '""' , $value );
+//                $value = '"' . $value . '"' . ",\t";
+                $value = $value . ",\t";
+            }
+            $line .= $value;
+        }
+        $data .= trim( $line ) . "\n";
+    }
+    $data = str_replace( "\r" , "" , $data );
+
+    if ( $data == "" )
+    {
+        $data = "\n(0) Records Found!\n";                        
+    }
+
+    header("Content-type: application/octet-stream");
+    $name = str_replace(" ", "_", $request['name']);
+    header("Content-Disposition: attachment; filename=".$name.".csv");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    print "$header\n$data";
+}

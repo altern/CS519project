@@ -1,6 +1,6 @@
 source('util.R')
 
-data <- read.csv('interactive.csv')
+data <- read.csv('Number_of_published_scripts_by_author_(interactive).csv')
 # data <- removeOutliers(data, "number_of_scripts");
 #data <- removeZeroes(data, "number_of_scripts");
 # data <- removeOutliers(data, "number_of_completed_tutorials");

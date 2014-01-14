@@ -11,8 +11,7 @@
         FROM `hashtags` ht 
         JOIN scripts_hashtags sht ON sht.hashtag_id = ht.id 
         JOIN scripts s ON sht.script_id = s.id 
-        where ht.name in ('stepbystep', 'stepByStep', 'tutorials', 'interactiveTutorial', 'docs') 
-        -- where ht.name in ('stepbystep', 'stepByStep', 'tutorials', 'interactiveTutorial') 
+        where ht.name in  " .generateWhereClauseForTutorials(). "
         order by s.id asc ";
     
     if(!$res = mysql_query($tutorials_sql)) {

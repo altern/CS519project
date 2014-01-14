@@ -10,7 +10,7 @@
         JOIN scripts_hashtags sht ON sht.script_id = s.id 
         join `hashtags` ht 
 		on sht.hashtag_id = ht.id 
-		where ht.name in ('stepbystep', 'stepByStep', 'tutorials', 'interactiveTutorial') 
+		where ht.name in " .  generateWhereClauseForTutorials(). "
         order by s.id asc";
     
     $res = mysql_query($tutorials_sql);
@@ -30,6 +30,8 @@
         $hashes = get_hashes($tutorial_row['description']);
         
         if(add_scripts_tutorials_mapping($tutorial_row['id'], $tutorial_row['script_name'], $hashes, $features, $tutorial_row['content'])) {
+            //$features_dump = var_export($features, true);
+            //print_if_cli($features_dump);
             print_if_cli(" $row_count / $total_row_count | Added scripts -> tutorials mapping for ".$tutorial_row['script_id']. " (".$tutorial_row['id'].") ");
             $mapping_count++;
         }
