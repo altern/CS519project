@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://54.201.192.177/queries.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <title>TouchDevelop Queries results</title>
+  
+  <link rel="stylesheet" href="http://54.201.192.177/css/style.css?v=1.0">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css"></style></head>
+
+<body>
+
+<h2>General stats</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'table'</span><span>,</span> 
+  <span style="color: blue;">'count'</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">dual</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'authors'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">authors</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'scripts'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">scripts</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'features'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">features</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'tutorials'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'interactive tutorials'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'non-interactive tutorials'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">SELECT</span> 
+  <span style="color: blue;">'tutorial completions'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">scripts_tutorials</span></pre></div><table border="1"><tbody><tr><th>table</th><th>count</th></tr><tr><td>table</td><td>count</td></tr>
+<tr><td>authors</td><td>18153</td></tr>
+<tr><td>scripts</td><td>40464</td></tr>
+<tr><td>features</td><td>11789</td></tr>
+<tr><td>tutorials</td><td>427</td></tr>
+<tr><td>interactive tutorials</td><td>49</td></tr>
+<tr><td>non-interactive tutorials</td><td>378</td></tr>
+<tr><td>tutorial completions</td><td>11209</td></tr>
+</tbody></table><hr><h2>duplicate values (scripts)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">c</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">scripts</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">name</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">c</span> <span>&gt;</span> <span style="color: green;">1</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">c</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>name</th><th>c</th></tr><tr><td>my script</td><td>661</td></tr>
+<tr><td>My Turtle</td><td>329</td></tr>
+<tr><td>My first game</td><td>263</td></tr>
+<tr><td>My game</td><td>206</td></tr>
+<tr><td>my song shaker</td><td>173</td></tr>
+<tr><td>turtle</td><td>141</td></tr>
+<tr><td>test</td><td>128</td></tr>
+<tr><td>my app</td><td>117</td></tr>
+<tr><td>my script 1</td><td>114</td></tr>
+<tr><td>my script 2</td><td>110</td></tr>
+<tr><td>home controller</td><td>88</td></tr>
+<tr><td>accelero colors</td><td>85</td></tr>
+<tr><td>my slicer</td><td>82</td></tr>
+<tr><td>turtle drawings template</td><td>82</td></tr>
+<tr><td>4.0 McGhee &amp; Balbin Capstone</td><td>78</td></tr>
+<tr><td>bubble popper</td><td>76</td></tr>
+<tr><td>my turtle 2</td><td>69</td></tr>
+<tr><td>spectacular turtle</td><td>66</td></tr>
+<tr><td>WiFi/3G Swap</td><td>65</td></tr>
+<tr><td>game</td><td>64</td></tr>
+<tr><td>awe-inspiring turtle</td><td>63</td></tr>
+<tr><td>terrific turtle</td><td>63</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=1">More (3495)...</a></td></tr></tbody></table><hr><h2>duplicate values (tutorials)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">c</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">tutorials</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">name</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">c</span> <span>&gt;</span> <span style="color: green;">1</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">c</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>name</th><th>c</th></tr><tr><td>love me not notes</td><td>11</td></tr>
+<tr><td>first steps with turtle</td><td>10</td></tr>
+<tr><td>getting started</td><td>9</td></tr>
+<tr><td>contents</td><td>7</td></tr>
+<tr><td>Bluetooth</td><td>6</td></tr>
+<tr><td>export to app</td><td>5</td></tr>
+<tr><td>scratch reference</td><td>5</td></tr>
+<tr><td>turtle notes</td><td>5</td></tr>
+<tr><td>turtle</td><td>5</td></tr>
+<tr><td>cloud sessions</td><td>4</td></tr>
+<tr><td>first steps with drawing</td><td>4</td></tr>
+<tr><td>boxed</td><td>4</td></tr>
+<tr><td>language</td><td>4</td></tr>
+<tr><td>appday large</td><td>4</td></tr>
+<tr><td>script updates</td><td>3</td></tr>
+<tr><td>bubble popper tutorial</td><td>3</td></tr>
+<tr><td>doitall browser</td><td>3</td></tr>
+<tr><td>ads</td><td>3</td></tr>
+<tr><td>hour of code educator notes</td><td>3</td></tr>
+<tr><td>soundboard tutorial</td><td>3</td></tr>
+<tr><td>courses</td><td>3</td></tr>
+<tr><td>dev bootcamp</td><td>3</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=2">More (71)...</a></td></tr></tbody></table><hr><h2>duplicate values (features)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">c</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">features</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">name</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">c</span> <span>&gt;</span> <span style="color: green;">1</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">c</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>name</th><th>c</th></tr><tr><td>CollectionOfGameStateIsInvalid</td><td>2</td></tr>
+<tr><td>CollectionOfGameState</td><td>2</td></tr>
+<tr><td>gameStateCreateCollection</td><td>2</td></tr>
+<tr><td>gameStateCreate</td><td>2</td></tr>
+</tbody></table><hr><h2>duplicate values (chunks)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">content</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">c</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">chunks</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">content</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">c</span> <span>&gt;</span> <span style="color: green;">1</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">c</span> <span style="font-weight:bold;">DESC</span></pre></div><h4>EMPTY</h4><hr><h2>duplicate values (authors)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">c</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">authors</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">name</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">c</span> <span>&gt;</span> <span style="color: green;">1</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">c</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>name</th><th>c</th></tr><tr><td></td><td>2</td></tr>
+<tr><td>ILLUMINATI</td><td>2</td></tr>
+<tr><td>JOSEPH LITTLE</td><td>2</td></tr>
+<tr><td>User655755</td><td>2</td></tr>
+<tr><td>Mynet1985</td><td>2</td></tr>
+<tr><td>paulobudal</td><td>2</td></tr>
+<tr><td>User53118</td><td>2</td></tr>
+<tr><td>Dillinger</td><td>2</td></tr>
+<tr><td>User384971</td><td>2</td></tr>
+</tbody></table><hr><h2>duplicate values (scripts_chunks)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">c</span><span>.</span><span style="color: #333;">content</span><span>,</span> 
+  <span style="font-weight:bold;">group_concat</span>(<span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">script_ids</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">chunks</span> <span style="color: #333;">c</span> 
+  <span style="font-weight:bold;">JOIN</span> <span style="color: #333;">scripts_chunks</span> <span style="color: #333;">sc</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">sc</span><span>.</span><span style="color: #333;">chunk_id</span> <span>=</span> <span style="color: #333;">c</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">sc</span><span>.</span><span style="color: #333;">script_id</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">content</span><span>,</span> 
+  <span style="color: #333;">sc</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+  <span style="color: #333;">sc</span><span>.</span><span style="color: #333;">seq</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">N</span> <span>&gt;</span> <span style="color: green;">1</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">N</span> <span style="font-weight:bold;">DESC</span></pre></div><h4>EMPTY</h4><hr><h2>Number of completed tutorials by author</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">ta</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="font-weight:bold;">group_concat</span>(<span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">script_ids</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author_name</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`tutorials_by_author`</span> <span style="color: #333;">ta</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">authors</span> <span style="color: #333;">a</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">is_completed</span> <span>=</span> <span style="font-weight:bold;">TRUE</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>number_of_completed_tutorials</th><th>script_ids</th><th>author_name</th></tr><tr><td>11</td><td>gjrn,esih,dvmbjubm,uayfb,tblca,nstka,jyema,akjq,zbljxmvl,nalpa,zkpi</td><td>RetardedUnicorn</td></tr>
+<tr><td>10</td><td>hbdgurrq,uayfb,jyema,akjq,zbljxmvl,nalpa,bbxr,wsawa,kvkfa,nkxba</td><td>TouchDevelop Documentation</td></tr>
+<tr><td>10</td><td>gjrn,uayfb,jyema,akjq,zbljxmvl,nalpa,hbdgurrq,wcyp,dvmbjubm,lkzba</td><td>RBHS Vikings</td></tr>
+<tr><td>9</td><td>dvmbjubm,tblca,nstka,hbdgurrq,zkpi,jyema,akjq,zbljxmvl,nalpa</td><td>Junjie Lin</td></tr>
+<tr><td>9</td><td>joxi,jyema,akjq,zbljxmvl,nalpa,dvmbjubm,zkpi,gjrn,esih</td><td>JayDotNet</td></tr>
+<tr><td>9</td><td>zkpi,dvmbjubm,tblca,nstka,jyema,akjq,zbljxmvl,nalpa,gjrn</td><td>User618706</td></tr>
+<tr><td>9</td><td>jyema,akjq,zbljxmvl,nalpa,tblca,nstka,dvmbjubm,joxi,zkpi</td><td>Briana Conger</td></tr>
+<tr><td>8</td><td>jyema,akjq,zbljxmvl,nalpa,esih,zkpi,hbdgurrq,qtlsvzmz</td><td>SocalSam</td></tr>
+<tr><td>8</td><td>hbdgurrq,esih,jyema,akjq,zbljxmvl,nalpa,dvmbjubm,wcyp</td><td>TouchDevelop Samples</td></tr>
+<tr><td>8</td><td>hbdgurrq,vodya,esih,jyema,akjq,zbljxmvl,nalpa,dvmbjubm</td><td>Inf4mousKid</td></tr>
+<tr><td>8</td><td>gjrn,jyema,akjq,zbljxmvl,nalpa,uayfb,tblca,nstka</td><td>M3XL Developments</td></tr>
+<tr><td>8</td><td>jyema,akjq,zbljxmvl,nalpa,tblca,nstka,zkpi,gjrn</td><td>Andrew Harris</td></tr>
+<tr><td>8</td><td>jyema,akjq,zbljxmvl,nalpa,gjrn,esih,hbdgurrq,dvmbjubm</td><td>Sebastian C. Burckhardt</td></tr>
+<tr><td>8</td><td>dvmbjubm,jyema,akjq,zbljxmvl,nalpa,uayfb,lkzba,hbdgurrq</td><td>TouchDevelop Demo</td></tr>
+<tr><td>8</td><td>tblca,nstka,gjrn,uayfb,jyema,akjq,zbljxmvl,nalpa</td><td>pixalex-cp</td></tr>
+<tr><td>8</td><td>ubvla,pygxa,jyema,hbdgurrq,jzqba,akjq,zbljxmvl,nalpa</td><td>Peter Heldens</td></tr>
+<tr><td>7</td><td>jyema,hbdgurrq,akjq,zbljxmvl,nalpa,vodya,esih</td><td>paul@work</td></tr>
+<tr><td>7</td><td>hbdgurrq,vodya,esih,jyema,akjq,zbljxmvl,nalpa</td><td>Renard d'Allan</td></tr>
+<tr><td>7</td><td>hbdgurrq,esih,jyema,akjq,zbljxmvl,nalpa,uayfb</td><td>arpit christi</td></tr>
+<tr><td>7</td><td>gjrn,esih,zkpi,uayfb,tblca,nstka,lkzba</td><td>dhakigodana</td></tr>
+<tr><td>7</td><td>jyema,hbdgurrq,akjq,zbljxmvl,nalpa,esih,vodya</td><td>Wabbit Apps</td></tr>
+<tr><td>7</td><td>dvmbjubm,jyema,akjq,zbljxmvl,nalpa,zkpi,gjrn</td><td>Amer Rashid</td></tr><tr><td colspan="3"><a href="http://54.201.192.177/queries.php?request_num=7">More (2513)...</a></td></tr></tbody></table><hr><h2>Number of started tutorials by author</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">ta</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="font-weight:bold;">group_concat</span>(<span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">script_ids</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author_name</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`tutorials_by_author`</span> <span style="color: #333;">ta</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">authors</span> <span style="color: #333;">a</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">is_completed</span> <span>=</span> <span style="color: #333;">FALSE</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>number_of_completed_tutorials</th><th>script_ids</th><th>author_name</th></tr><tr><td>4</td><td>ayyxc,qtlsvzmz,yqxt,wgckdgrk</td><td>SocalSam</td></tr>
+<tr><td>3</td><td>vhqrnkjb,yqxt,wgckdgrk</td><td>TouchDevelop Documentation</td></tr>
+<tr><td>3</td><td>yqxt,wgckdgrk,ayyxc</td><td>RetardedUnicorn</td></tr>
+<tr><td>3</td><td>ayyxc,yqxt,wgckdgrk</td><td>Ben Soars (Duckman)</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>TouchDevelop Samples</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>Mister Peli</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>peli@touchdevelop</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>Inf4mousKid</td></tr>
+<tr><td>2</td><td>ayyxc,oplh</td><td>No1ChelseaFan</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>rahel galato</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>StephenHowell</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>User482035</td></tr>
+<tr><td>2</td><td>ayyxc,oplh</td><td>User09910</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>User50153</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>MrProGamer121</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>Michał Moskal</td></tr>
+<tr><td>2</td><td>ckoj,oplh</td><td>Cajun Element</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>Touchdevelop Sandbox</td></tr>
+<tr><td>2</td><td>yqxt,wgckdgrk</td><td>TouchDevelop Demo</td></tr>
+<tr><td>2</td><td>ckoj,oplh</td><td>michele pritzker</td></tr>
+<tr><td>2</td><td>ckoj,oplh</td><td>Erik Boseman</td></tr>
+<tr><td>2</td><td>ckoj,oplh</td><td>Tiarra Poindexter</td></tr><tr><td colspan="3"><a href="http://54.201.192.177/queries.php?request_num=8">More (707)...</a></td></tr></tbody></table><hr><h2>Number of published scripts by author (excluding tutorials)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="font-weight:bold;">distinct</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span>) <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author_name</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">join_date</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">features</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">activedays</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">receivedpositivereviews</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">subscribers</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">score</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">authors</span> <span style="color: #333;">a</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">left join</span> <span style="color: #333;">tutorials_by_author</span> <span style="color: #333;">ta</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">is_completed</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">script_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="color: blue;">'peli@touchdevelop'</span><span>,</span> <span style="color: blue;">'Nikolai@TouchDevelop'</span><span>,</span> 
+    <span style="color: blue;">'Michał Moskal'</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">like</span> <span style="color: blue;">'TouchDevelop%'</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">like</span> <span style="color: blue;">'%@touchdevelop'</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_scripts</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>number_of_scripts</th><th>number_of_completed_tutorials</th><th>author_name</th><th>join_date</th><th>features</th><th>activedays</th><th>receivedpositivereviews</th><th>subscribers</th><th>score</th></tr><tr><td>1860</td><td>10</td><td>RBHS Vikings</td><td>2012-04-03 17:32:06</td><td>252</td><td>314</td><td>3</td><td>1</td><td>78</td></tr>
+<tr><td>1160</td><td>8</td><td>SocalSam</td><td>2011-08-12 22:41:35</td><td>224</td><td>268</td><td>10</td><td>1</td><td>77</td></tr>
+<tr><td>616</td><td>11</td><td>RetardedUnicorn</td><td>2013-10-30 17:00:19</td><td>186</td><td>53</td><td>24</td><td>4</td><td>56</td></tr>
+<tr><td>553</td><td>7</td><td>arpit christi</td><td>2013-10-01 01:13:33</td><td>299</td><td>52</td><td>3</td><td>0</td><td>55</td></tr>
+<tr><td>488</td><td>8</td><td>Sebastian C. Burckhardt</td><td>2011-09-21 23:40:33</td><td>429</td><td>421</td><td>5</td><td>3</td><td>110</td></tr>
+<tr><td>385</td><td>7</td><td>dhakigodana</td><td>2013-09-27 17:33:07</td><td>99</td><td>53</td><td>1</td><td>0</td><td>33</td></tr>
+<tr><td>384</td><td>8</td><td>Inf4mousKid</td><td>2013-01-15 04:10:51</td><td>267</td><td>275</td><td>38</td><td>1</td><td>84</td></tr>
+<tr><td>267</td><td>3</td><td>user 8896</td><td>2011-10-05 09:05:06</td><td>766</td><td>522</td><td>160</td><td>4</td><td>175</td></tr>
+<tr><td>252</td><td>7</td><td>paul@work</td><td>2013-11-14 22:41:07</td><td>305</td><td>53</td><td>10</td><td>2</td><td>65</td></tr>
+<tr><td>240</td><td>8</td><td>M3XL Developments</td><td>2013-08-17 01:16:46</td><td>99</td><td>45</td><td>0</td><td>0</td><td>31</td></tr>
+<tr><td>240</td><td>6</td><td>nhnhnhnh</td><td>2011-08-25 11:26:48</td><td>380</td><td>152</td><td>16</td><td>0</td><td>81</td></tr>
+<tr><td>228</td><td>2</td><td>white FOX</td><td>2011-11-25 20:46:47</td><td>931</td><td>656</td><td>652</td><td>38</td><td>262</td></tr>
+<tr><td>217</td><td>7</td><td>Renard d'Allan</td><td>2013-10-21 01:48:43</td><td>370</td><td>67</td><td>41</td><td>4</td><td>78</td></tr>
+<tr><td>217</td><td>7</td><td>Kidlat MC</td><td>2013-10-21 19:10:57</td><td>133</td><td>38</td><td>20</td><td>6</td><td>51</td></tr>
+<tr><td>216</td><td>9</td><td>Junjie Lin</td><td>2013-11-20 15:31:33</td><td>117</td><td>6</td><td>1</td><td>0</td><td>27</td></tr>
+<tr><td>210</td><td>6</td><td>Kevin Le2</td><td>2013-05-23 06:39:31</td><td>125</td><td>58</td><td>7</td><td>0</td><td>42</td></tr>
+<tr><td>204</td><td>6</td><td>S Johnson</td><td>2013-04-11 14:47:12</td><td>160</td><td>143</td><td>61</td><td>3</td><td>66</td></tr>
+<tr><td>204</td><td>4</td><td>rahel galato</td><td>2013-06-26 20:47:37</td><td>136</td><td>77</td><td>1</td><td>0</td><td>39</td></tr>
+<tr><td>204</td><td>6</td><td>Nikita Lyablin</td><td>2013-02-10 10:15:46</td><td>201</td><td>179</td><td>15</td><td>7</td><td>72</td></tr>
+<tr><td>198</td><td>3</td><td>ZedStudio</td><td>2013-08-18 04:58:51</td><td>425</td><td>134</td><td>3</td><td>1</td><td>77</td></tr>
+<tr><td>180</td><td>6</td><td>Manuel Fahndrich</td><td>2011-07-25 20:51:22</td><td>365</td><td>277</td><td>29</td><td>2</td><td>94</td></tr>
+<tr><td>180</td><td>6</td><td>jomar horario5</td><td>2013-09-30 17:04:36</td><td>134</td><td>66</td><td>3</td><td>0</td><td>40</td></tr><tr><td colspan="9"><a href="http://54.201.192.177/queries.php?request_num=9">More (17991)...</a></td></tr></tbody></table><hr><h2>Number of published scripts by author (interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="font-weight:bold;">distinct</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span>) <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author_name</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">join_date</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">features</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">activedays</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">receivedpositivereviews</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">subscribers</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">score</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">authors</span> <span style="color: #333;">a</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials_by_author</span> <span style="color: #333;">ta</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">is_completed</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">script_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="color: blue;">'peli@touchdevelop'</span><span>,</span> <span style="color: blue;">'Nikolai@TouchDevelop'</span><span>,</span> 
+    <span style="color: blue;">'Michał Moskal'</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">like</span> <span style="color: blue;">'TouchDevelop%'</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">like</span> <span style="color: blue;">'%@touchdevelop'</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_scripts</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>is_interactive</th><th>number_of_scripts</th><th>number_of_completed_tutorials</th><th>author_name</th><th>join_date</th><th>features</th><th>activedays</th><th>receivedpositivereviews</th><th>subscribers</th><th>score</th></tr><tr><td>1</td><td>1116</td><td>6</td><td>RBHS Vikings</td><td>2012-04-03 17:32:06</td><td>252</td><td>314</td><td>3</td><td>1</td><td>78</td></tr>
+<tr><td>1</td><td>580</td><td>4</td><td>SocalSam</td><td>2011-08-12 22:41:35</td><td>224</td><td>268</td><td>10</td><td>1</td><td>77</td></tr>
+<tr><td>1</td><td>392</td><td>7</td><td>RetardedUnicorn</td><td>2013-10-30 17:00:19</td><td>186</td><td>53</td><td>24</td><td>4</td><td>56</td></tr>
+<tr><td>1</td><td>305</td><td>5</td><td>Sebastian C. Burckhardt</td><td>2011-09-21 23:40:33</td><td>429</td><td>421</td><td>5</td><td>3</td><td>110</td></tr>
+<tr><td>1</td><td>275</td><td>5</td><td>dhakigodana</td><td>2013-09-27 17:33:07</td><td>99</td><td>53</td><td>1</td><td>0</td><td>33</td></tr>
+<tr><td>1</td><td>237</td><td>3</td><td>arpit christi</td><td>2013-10-01 01:13:33</td><td>299</td><td>52</td><td>3</td><td>0</td><td>55</td></tr>
+<tr><td>1</td><td>228</td><td>2</td><td>white FOX</td><td>2011-11-25 20:46:47</td><td>931</td><td>656</td><td>652</td><td>38</td><td>262</td></tr>
+<tr><td>1</td><td>192</td><td>4</td><td>Inf4mousKid</td><td>2013-01-15 04:10:51</td><td>267</td><td>275</td><td>38</td><td>1</td><td>84</td></tr>
+<tr><td>1</td><td>168</td><td>7</td><td>Junjie Lin</td><td>2013-11-20 15:31:33</td><td>117</td><td>6</td><td>1</td><td>0</td><td>27</td></tr>
+<tr><td>1</td><td>155</td><td>5</td><td>Kidlat MC</td><td>2013-10-21 19:10:57</td><td>133</td><td>38</td><td>20</td><td>6</td><td>51</td></tr>
+<tr><td>1</td><td>153</td><td>3</td><td>rahel galato</td><td>2013-06-26 20:47:37</td><td>136</td><td>77</td><td>1</td><td>0</td><td>39</td></tr>
+<tr><td>1</td><td>150</td><td>5</td><td>M3XL Developments</td><td>2013-08-17 01:16:46</td><td>99</td><td>45</td><td>0</td><td>0</td><td>31</td></tr>
+<tr><td>1</td><td>136</td><td>4</td><td>S Johnson</td><td>2013-04-11 14:47:12</td><td>160</td><td>143</td><td>61</td><td>3</td><td>66</td></tr>
+<tr><td>1</td><td>136</td><td>4</td><td>Nikita Lyablin</td><td>2013-02-10 10:15:46</td><td>201</td><td>179</td><td>15</td><td>7</td><td>72</td></tr>
+<tr><td>1</td><td>132</td><td>2</td><td>ZedStudio</td><td>2013-08-18 04:58:51</td><td>425</td><td>134</td><td>3</td><td>1</td><td>77</td></tr>
+<tr><td>1</td><td>124</td><td>2</td><td>Quadcorn</td><td>2012-12-02 20:26:20</td><td>249</td><td>139</td><td>151</td><td>6</td><td>85</td></tr>
+<tr><td>1</td><td>120</td><td>3</td><td>nhnhnhnh</td><td>2011-08-25 11:26:48</td><td>380</td><td>152</td><td>16</td><td>0</td><td>81</td></tr>
+<tr><td>1</td><td>120</td><td>6</td><td>Briana Conger</td><td>2013-10-10 17:24:07</td><td>121</td><td>17</td><td>1</td><td>0</td><td>32</td></tr>
+<tr><td>1</td><td>114</td><td>3</td><td>Vinh Duong</td><td>2013-09-10 17:33:41</td><td>134</td><td>72</td><td>3</td><td>0</td><td>41</td></tr>
+<tr><td>1</td><td>114</td><td>6</td><td>Andrew Harris</td><td>2013-12-09 14:56:36</td><td>117</td><td>7</td><td>0</td><td>0</td><td>27</td></tr>
+<tr><td>1</td><td>112</td><td>7</td><td>User618706</td><td>2013-12-14 10:22:33</td><td>113</td><td>11</td><td>0</td><td>0</td><td>30</td></tr>
+<tr><td>1</td><td>111</td><td>1</td><td>Dave Curtis</td><td>2012-10-26 18:39:01</td><td>407</td><td>99</td><td>9</td><td>1</td><td>77</td></tr><tr><td colspan="10"><a href="http://54.201.192.177/queries.php?request_num=10">More (2390)...</a></td></tr></tbody></table><hr><h2>Number of published scripts by author (non-interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="font-weight:bold;">distinct</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span>) <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author_name</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">join_date</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">features</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">activedays</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">receivedpositivereviews</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">subscribers</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">score</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">authors</span> <span style="color: #333;">a</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials_by_author</span> <span style="color: #333;">ta</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">author_id</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">is_completed</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">script_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="color: blue;">'peli@touchdevelop'</span><span>,</span> <span style="color: blue;">'Nikolai@TouchDevelop'</span><span>,</span> 
+    <span style="color: blue;">'Michał Moskal'</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">like</span> <span style="color: blue;">'TouchDevelop%'</span> 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">like</span> <span style="color: blue;">'%@touchdevelop'</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_scripts</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>is_interactive</th><th>number_of_scripts</th><th>number_of_completed_tutorials</th><th>author_name</th><th>join_date</th><th>features</th><th>activedays</th><th>receivedpositivereviews</th><th>subscribers</th><th>score</th></tr><tr><td>0</td><td>744</td><td>4</td><td>RBHS Vikings</td><td>2012-04-03 17:32:06</td><td>252</td><td>314</td><td>3</td><td>1</td><td>78</td></tr>
+<tr><td>0</td><td>580</td><td>4</td><td>SocalSam</td><td>2011-08-12 22:41:35</td><td>224</td><td>268</td><td>10</td><td>1</td><td>77</td></tr>
+<tr><td>0</td><td>316</td><td>4</td><td>arpit christi</td><td>2013-10-01 01:13:33</td><td>299</td><td>52</td><td>3</td><td>0</td><td>55</td></tr>
+<tr><td>0</td><td>224</td><td>4</td><td>RetardedUnicorn</td><td>2013-10-30 17:00:19</td><td>186</td><td>53</td><td>24</td><td>4</td><td>56</td></tr>
+<tr><td>0</td><td>192</td><td>4</td><td>Inf4mousKid</td><td>2013-01-15 04:10:51</td><td>267</td><td>275</td><td>38</td><td>1</td><td>84</td></tr>
+<tr><td>0</td><td>183</td><td>3</td><td>Sebastian C. Burckhardt</td><td>2011-09-21 23:40:33</td><td>429</td><td>421</td><td>5</td><td>3</td><td>110</td></tr>
+<tr><td>0</td><td>178</td><td>2</td><td>user 8896</td><td>2011-10-05 09:05:06</td><td>766</td><td>522</td><td>160</td><td>4</td><td>175</td></tr>
+<tr><td>0</td><td>144</td><td>4</td><td>paul@work</td><td>2013-11-14 22:41:07</td><td>305</td><td>53</td><td>10</td><td>2</td><td>65</td></tr>
+<tr><td>0</td><td>124</td><td>4</td><td>Renard d'Allan</td><td>2013-10-21 01:48:43</td><td>370</td><td>67</td><td>41</td><td>4</td><td>78</td></tr>
+<tr><td>0</td><td>120</td><td>3</td><td>nhnhnhnh</td><td>2011-08-25 11:26:48</td><td>380</td><td>152</td><td>16</td><td>0</td><td>81</td></tr>
+<tr><td>0</td><td>120</td><td>2</td><td>SchraySoft</td><td>2011-12-09 18:04:25</td><td>192</td><td>75</td><td>5</td><td>2</td><td>51</td></tr>
+<tr><td>0</td><td>110</td><td>2</td><td>dhakigodana</td><td>2013-09-27 17:33:07</td><td>99</td><td>53</td><td>1</td><td>0</td><td>33</td></tr>
+<tr><td>0</td><td>105</td><td>3</td><td>Kevin Le2</td><td>2013-05-23 06:39:31</td><td>125</td><td>58</td><td>7</td><td>0</td><td>42</td></tr>
+<tr><td>0</td><td>90</td><td>3</td><td>Manuel Fahndrich</td><td>2011-07-25 20:51:22</td><td>365</td><td>277</td><td>29</td><td>2</td><td>94</td></tr>
+<tr><td>0</td><td>90</td><td>3</td><td>jomar horario5</td><td>2013-09-30 17:04:36</td><td>134</td><td>66</td><td>3</td><td>0</td><td>40</td></tr>
+<tr><td>0</td><td>90</td><td>3</td><td>M3XL Developments</td><td>2013-08-17 01:16:46</td><td>99</td><td>45</td><td>0</td><td>0</td><td>31</td></tr>
+<tr><td>0</td><td>84</td><td>2</td><td>Denis Mukhametov</td><td>2012-12-12 03:50:28</td><td>448</td><td>290</td><td>29</td><td>1</td><td>103</td></tr>
+<tr><td>0</td><td>83</td><td>1</td><td>Michael Sean McGhee</td><td>2013-03-24 00:16:11</td><td>72</td><td>45</td><td>0</td><td>0</td><td>29</td></tr>
+<tr><td>0</td><td>80</td><td>4</td><td>Wabbit Apps</td><td>2011-08-03 20:59:17</td><td>1064</td><td>396</td><td>53</td><td>0</td><td>177</td></tr>
+<tr><td>0</td><td>80</td><td>2</td><td>Native Earthling</td><td>2013-09-04 03:36:09</td><td>126</td><td>40</td><td>9</td><td>0</td><td>43</td></tr>
+<tr><td>0</td><td>72</td><td>4</td><td>JayDotNet</td><td>2013-12-09 03:09:50</td><td>131</td><td>14</td><td>0</td><td>0</td><td>32</td></tr>
+<tr><td>0</td><td>68</td><td>2</td><td>S Johnson</td><td>2013-04-11 14:47:12</td><td>160</td><td>143</td><td>61</td><td>3</td><td>66</td></tr><tr><td colspan="10"><a href="http://54.201.192.177/queries.php?request_num=11">More (420)...</a></td></tr></tbody></table><hr><h2>number of scripts by author</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`scripts`</span> <span style="color: #333;">s</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">authors</span> <span style="color: #333;">a</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_scripts</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>number_of_scripts</th><th>author</th></tr><tr><td>395</td><td>TouchDevelop Samples</td></tr>
+<tr><td>315</td><td>TouchDevelop Documentation</td></tr>
+<tr><td>290</td><td>TouchDevelop Demo</td></tr>
+<tr><td>190</td><td>RBHS Vikings</td></tr>
+<tr><td>190</td><td>Michał Moskal</td></tr>
+<tr><td>183</td><td>peli@touchdevelop</td></tr>
+<tr><td>153</td><td>SocalSam</td></tr>
+<tr><td>114</td><td>white FOX</td></tr>
+<tr><td>111</td><td>Eric Franklin</td></tr>
+<tr><td>111</td><td>Dave Curtis</td></tr>
+<tr><td>92</td><td>user 8896</td></tr>
+<tr><td>92</td><td>Nikolai@TouchDevelop</td></tr>
+<tr><td>83</td><td>Michael Sean McGhee</td></tr>
+<tr><td>79</td><td>arpit christi</td></tr>
+<tr><td>77</td><td>Touchdevelop Sandbox</td></tr>
+<tr><td>66</td><td>ZedStudio</td></tr>
+<tr><td>62</td><td>Sore Finger</td></tr>
+<tr><td>62</td><td>Quadcorn</td></tr>
+<tr><td>61</td><td>Sebastian C. Burckhardt</td></tr>
+<tr><td>60</td><td>SchraySoft</td></tr>
+<tr><td>56</td><td>RetardedUnicorn</td></tr>
+<tr><td>56</td><td>User85075</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=12">More (18019)...</a></td></tr></tbody></table><hr><h2>authors who have more than 5 published scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`scripts`</span> <span style="color: #333;">s</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">authors</span> <span style="color: #333;">a</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">number_of_scripts</span> <span>&gt;</span> <span style="color: green;">5</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_scripts</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>number_of_scripts</th><th>author</th></tr><tr><td>395</td><td>TouchDevelop Samples</td></tr>
+<tr><td>315</td><td>TouchDevelop Documentation</td></tr>
+<tr><td>290</td><td>TouchDevelop Demo</td></tr>
+<tr><td>190</td><td>RBHS Vikings</td></tr>
+<tr><td>190</td><td>Michał Moskal</td></tr>
+<tr><td>183</td><td>peli@touchdevelop</td></tr>
+<tr><td>153</td><td>SocalSam</td></tr>
+<tr><td>114</td><td>white FOX</td></tr>
+<tr><td>111</td><td>Eric Franklin</td></tr>
+<tr><td>111</td><td>Dave Curtis</td></tr>
+<tr><td>92</td><td>user 8896</td></tr>
+<tr><td>92</td><td>Nikolai@TouchDevelop</td></tr>
+<tr><td>83</td><td>Michael Sean McGhee</td></tr>
+<tr><td>79</td><td>arpit christi</td></tr>
+<tr><td>77</td><td>Touchdevelop Sandbox</td></tr>
+<tr><td>66</td><td>ZedStudio</td></tr>
+<tr><td>62</td><td>Sore Finger</td></tr>
+<tr><td>62</td><td>Quadcorn</td></tr>
+<tr><td>61</td><td>Sebastian C. Burckhardt</td></tr>
+<tr><td>60</td><td>SchraySoft</td></tr>
+<tr><td>56</td><td>RetardedUnicorn</td></tr>
+<tr><td>56</td><td>User85075</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=13">More (1043)...</a></td></tr></tbody></table><hr><h2>authors who have &lt;= 5 published scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`scripts`</span> <span style="color: #333;">s</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">authors</span> <span style="color: #333;">a</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">number_of_scripts</span> <span>&lt;</span><span>=</span> <span style="color: green;">5</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_scripts</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>number_of_scripts</th><th>author</th></tr><tr><td>5</td><td>Carl Hynes7</td></tr>
+<tr><td>5</td><td>Joshua Douglas</td></tr>
+<tr><td>5</td><td>Joseph Miller</td></tr>
+<tr><td>5</td><td>Adam Chalmers</td></tr>
+<tr><td>5</td><td>User36456</td></tr>
+<tr><td>5</td><td>Eva Glasscock</td></tr>
+<tr><td>5</td><td>Halyard Freyder</td></tr>
+<tr><td>5</td><td>User63512</td></tr>
+<tr><td>5</td><td>Markydee</td></tr>
+<tr><td>5</td><td>User98509</td></tr>
+<tr><td>5</td><td>Liam Kasper</td></tr>
+<tr><td>5</td><td>Steven Kast</td></tr>
+<tr><td>5</td><td>MaryClaire</td></tr>
+<tr><td>5</td><td>FoodfrenzyGaming</td></tr>
+<tr><td>5</td><td>Wasserlicht27</td></tr>
+<tr><td>5</td><td>Gerald Varghese</td></tr>
+<tr><td>5</td><td>stankovski</td></tr>
+<tr><td>5</td><td>User87518</td></tr>
+<tr><td>5</td><td>User791651</td></tr>
+<tr><td>5</td><td>User498610</td></tr>
+<tr><td>5</td><td>edisonlee55</td></tr>
+<tr><td>5</td><td>Sadat Daniel</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=14">More (16976)...</a></td></tr></tbody></table><hr><h2>authors who have one published script</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) <span style="color: #333;">number_of_scripts</span><span>,</span> 
+  <span style="color: #333;">a</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`scripts`</span> <span style="color: #333;">s</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">authors</span> <span style="color: #333;">a</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">author_id</span> <span>=</span> <span style="color: #333;">a</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">author</span> 
+<span style="font-weight:bold;">HAVING</span> 
+  <span style="color: #333;">number_of_scripts</span> <span>=</span> <span style="color: green;">1</span></pre></div><table border="1"><tbody><tr><th>number_of_scripts</th><th>author</th></tr><tr><td>1</td><td> MattHarris</td></tr>
+<tr><td>1</td><td>$$ALC0mppx$$</td></tr>
+<tr><td>1</td><td>$RaptureWerks~JTF195</td></tr>
+<tr><td>1</td><td>007skhan</td></tr>
+<tr><td>1</td><td>00eden00</td></tr>
+<tr><td>1</td><td>0FatJPG0</td></tr>
+<tr><td>1</td><td>0x00053A</td></tr>
+<tr><td>1</td><td>11Robo11</td></tr>
+<tr><td>1</td><td>1232465846</td></tr>
+<tr><td>1</td><td>124565445</td></tr>
+<tr><td>1</td><td>12d41ao5l7</td></tr>
+<tr><td>1</td><td>1meggetto1</td></tr>
+<tr><td>1</td><td>2002robert</td></tr>
+<tr><td>1</td><td>2Rizky4U</td></tr>
+<tr><td>1</td><td>3gvice2013</td></tr>
+<tr><td>1</td><td>7181570606</td></tr>
+<tr><td>1</td><td>A KUEL196</td></tr>
+<tr><td>1</td><td>A. Kristian Fjelltun</td></tr>
+<tr><td>1</td><td>A1@nCoc033</td></tr>
+<tr><td>1</td><td>Aadit Sheth</td></tr>
+<tr><td>1</td><td>Aakash kr</td></tr>
+<tr><td>1</td><td>Aakash Mehta</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=15">More (11467)...</a></td></tr></tbody></table><hr><h2>frequency of features usage in scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">feature_name</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">sf</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">feature_frequency</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">scripts_features</span> <span style="color: #333;">sf</span> 
+  <span style="font-weight:bold;">JOIN</span> <span style="color: #333;">features</span> <span style="color: #333;">f</span> <span style="font-weight:bold;">ON</span> <span style="color: #333;">sf</span><span>.</span><span style="color: #333;">feature_id</span> <span>=</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">GROUP by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">feature_frequency</span> <span style="font-weight:bold;">DESC</span></pre></div><h4>SKIPPED (<a href="http://54.201.192.177/queries.php?request_num=16" target="_new">Run query in separate window</a>)</h4><h2>frequency of features coverage in tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">feature_name</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">tf</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">feature_frequency</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">tutorials_features</span> <span style="color: #333;">tf</span> 
+  <span style="font-weight:bold;">JOIN</span> <span style="color: #333;">features</span> <span style="color: #333;">f</span> <span style="font-weight:bold;">ON</span> <span style="color: #333;">tf</span><span>.</span><span style="color: #333;">feature_id</span> <span>=</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">GROUP by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">feature_frequency</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>feature_name</th><th>feature_frequency</th></tr><tr><td>script</td><td>427</td></tr>
+<tr><td>code</td><td>423</td></tr>
+<tr><td>comment</td><td>410</td></tr>
+<tr><td>commands</td><td>254</td></tr>
+<tr><td>assignment</td><td>205</td></tr>
+<tr><td>var</td><td>193</td></tr>
+<tr><td>art</td><td>174</td></tr>
+<tr><td>Number</td><td>136</td></tr>
+<tr><td>if</td><td>106</td></tr>
+<tr><td>libraries</td><td>99</td></tr>
+<tr><td>NumberSubtract</td><td>76</td></tr>
+<tr><td>Colors</td><td>72</td></tr>
+<tr><td>NumberAdd</td><td>70</td></tr>
+<tr><td>String</td><td>69</td></tr>
+<tr><td>Wall</td><td>68</td></tr>
+<tr><td>for</td><td>68</td></tr>
+<tr><td>actionParameter</td><td>65</td></tr>
+<tr><td>Board</td><td>63</td></tr>
+<tr><td>Math</td><td>58</td></tr>
+<tr><td>Sprite</td><td>58</td></tr>
+<tr><td>NumberMultiply</td><td>57</td></tr>
+<tr><td>inlineActions</td><td>57</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=17">More (565)...</a></td></tr></tbody></table><hr><h2>Number of features covered by each tutorial</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">tutorial_name</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span>*</span>) <span style="color: #333;">number_of_feature_usages</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`tutorials`</span> <span style="color: #333;">t</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">tutorials_features</span> <span style="color: #333;">tf</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">tf</span><span>.</span><span style="color: #333;">tutorial_id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">features</span> <span style="color: #333;">f</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">tf</span><span>.</span><span style="color: #333;">feature_id</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> <span>=</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">number_of_feature_usages</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>tutorial_name</th><th>script_id</th><th>number_of_feature_usages</th></tr><tr><td>facebook</td><td>yeoq</td><td>147</td></tr>
+<tr><td>sprite sheet</td><td>rsyj</td><td>105</td></tr>
+<tr><td>circles</td><td>bgyka</td><td>90</td></tr>
+<tr><td>turtle</td><td>lxzp</td><td>82</td></tr>
+<tr><td>turtle</td><td>mwcm</td><td>80</td></tr>
+<tr><td>turtle</td><td>hsbk</td><td>80</td></tr>
+<tr><td>turtle</td><td>fflf</td><td>76</td></tr>
+<tr><td>Alt+turtle</td><td>qkry</td><td>76</td></tr>
+<tr><td>turtle</td><td>hzim</td><td>76</td></tr>
+<tr><td>doitall browser 4</td><td>xezq</td><td>74</td></tr>
+<tr><td>Demo Whack something app 2 2</td><td>qzjtrzez</td><td>72</td></tr>
+<tr><td>Diamonds and Rubys</td><td>qtlsvzmz</td><td>71</td></tr>
+<tr><td>Board</td><td>qvhga</td><td>65</td></tr>
+<tr><td>heads up display</td><td>xjfw</td><td>63</td></tr>
+<tr><td>calendrier</td><td>vodya</td><td>61</td></tr>
+<tr><td>game board</td><td>kfzja</td><td>59</td></tr>
+<tr><td>path project trial run</td><td>zucmwlck</td><td>55</td></tr>
+<tr><td>monster slicer tutorial</td><td>ybkm</td><td>55</td></tr>
+<tr><td>monster slicer tutorial</td><td>hntv</td><td>55</td></tr>
+<tr><td>circles</td><td>nncha</td><td>54</td></tr>
+<tr><td>dev bootcamp</td><td>bbxr</td><td>52</td></tr>
+<tr><td>splash screen</td><td>toxzb</td><td>48</td></tr><tr><td colspan="3"><a href="http://54.201.192.177/queries.php?request_num=18">More (427)...</a></td></tr></tbody></table><hr><h2>Features covered by tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">feature_name</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">features</span> <span style="color: #333;">f</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">feature_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_features</span>
+  ) 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span></pre></div><table border="1"><tbody><tr><th>feature_name</th></tr><tr><td>Action</td></tr>
+<tr><td>actionBinding</td></tr>
+<tr><td>actionParameter</td></tr>
+<tr><td>ActionRun</td></tr>
+<tr><td>animation</td></tr>
+<tr><td>animationAutoDelete</td></tr>
+<tr><td>animationClearFields</td></tr>
+<tr><td>animationDuration</td></tr>
+<tr><td>animationEndColumn</td></tr>
+<tr><td>animationEndRow</td></tr>
+<tr><td>animationLoops</td></tr>
+<tr><td>animationSheetId</td></tr>
+<tr><td>animationStartColumn</td></tr>
+<tr><td>animationStartRow</td></tr>
+<tr><td>animationStartTime</td></tr>
+<tr><td>art</td></tr>
+<tr><td>assignment</td></tr>
+<tr><td>Bazaar</td></tr>
+<tr><td>BazaarAstOf</td></tr>
+<tr><td>BazaarCurrentUser</td></tr>
+<tr><td>BazaarLeaderboardScore</td></tr>
+<tr><td>BazaarPickScript</td></tr><tr><td colspan="1"><a href="http://54.201.192.177/queries.php?request_num=19">More (565)...</a></td></tr></tbody></table><hr><h2>Features that are not covered by tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">feature_name</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">features</span> <span style="color: #333;">f</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">feature_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_features</span>
+  ) 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span></pre></div><table border="1"><tbody><tr><th>feature_name</th></tr><tr><td>a</td></tr>
+<tr><td>Abilities</td></tr>
+<tr><td>AbilitiesAnimation</td></tr>
+<tr><td>AbilitiesCreate</td></tr>
+<tr><td>AbilitiesCreateCollection</td></tr>
+<tr><td>AbilitiesName</td></tr>
+<tr><td>AbilitiesSpeed</td></tr>
+<tr><td>AbilitiesSprite</td></tr>
+<tr><td>AbilitiesStrength</td></tr>
+<tr><td>account</td></tr>
+<tr><td>accountDate</td></tr>
+<tr><td>accountDeleteRow</td></tr>
+<tr><td>accountInfo</td></tr>
+<tr><td>accountInfoActiveMissions</td></tr>
+<tr><td>accountInfoBackgroundSkinsUnlocked</td></tr>
+<tr><td>accountInfoBonusCoinSkinsUnlocked</td></tr>
+<tr><td>accountInfoBonusesUnlocked</td></tr>
+<tr><td>accountInfoCoinSkinsUnlocked</td></tr>
+<tr><td>accountInfoLaserSkinsUnlocked</td></tr>
+<tr><td>accountInfoPlayerSkinsUnlocked</td></tr>
+<tr><td>accountInfoTable</td></tr>
+<tr><td>accountInfoTableAddRow</td></tr><tr><td colspan="1"><a href="http://54.201.192.177/queries.php?request_num=20">More (11224)...</a></td></tr></tbody></table><hr><h2>Features used in scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">feature_name</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">features</span> <span style="color: #333;">f</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">feature_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_features</span>
+  ) 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span></pre></div><table border="1"><tbody><tr><th>feature_name</th></tr><tr><td>a</td></tr>
+<tr><td>Abilities</td></tr>
+<tr><td>AbilitiesAnimation</td></tr>
+<tr><td>AbilitiesCreate</td></tr>
+<tr><td>AbilitiesCreateCollection</td></tr>
+<tr><td>AbilitiesName</td></tr>
+<tr><td>AbilitiesSpeed</td></tr>
+<tr><td>AbilitiesSprite</td></tr>
+<tr><td>AbilitiesStrength</td></tr>
+<tr><td>account</td></tr>
+<tr><td>accountDate</td></tr>
+<tr><td>accountDeleteRow</td></tr>
+<tr><td>accountInfo</td></tr>
+<tr><td>accountInfoActiveMissions</td></tr>
+<tr><td>accountInfoBackgroundSkinsUnlocked</td></tr>
+<tr><td>accountInfoBonusCoinSkinsUnlocked</td></tr>
+<tr><td>accountInfoBonusesUnlocked</td></tr>
+<tr><td>accountInfoCoinSkinsUnlocked</td></tr>
+<tr><td>accountInfoLaserSkinsUnlocked</td></tr>
+<tr><td>accountInfoPlayerSkinsUnlocked</td></tr>
+<tr><td>accountInfoTable</td></tr>
+<tr><td>accountInfoTableAddRow</td></tr><tr><td colspan="1"><a href="http://54.201.192.177/queries.php?request_num=21">More (11783)...</a></td></tr></tbody></table><hr><h2>Features not used in scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">feature_name</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">features</span> <span style="color: #333;">f</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">feature_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_features</span>
+  ) 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span></pre></div><table border="1"><tbody><tr><th>feature_name</th></tr><tr><td>h</td></tr>
+<tr><td>levelsObjectClearFields</td></tr>
+<tr><td>pubTileCitation</td></tr>
+<tr><td>q</td></tr>
+<tr><td>Y</td></tr>
+<tr><td>z</td></tr>
+</tbody></table><hr><h2>Libraries covered by tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">library_name</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">libraries</span> <span style="color: #333;">l</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">library_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_libraries</span>
+  ) 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">name</span></pre></div><table border="1"><tbody><tr><th>library_name</th></tr><tr><td>animations</td></tr>
+<tr><td>animations</td></tr>
+<tr><td>binary reader</td></tr>
+<tr><td>controls</td></tr>
+<tr><td>controls</td></tr>
+<tr><td>doitall</td></tr>
+<tr><td>doitall</td></tr>
+<tr><td>doitall browser</td></tr>
+<tr><td>doitall browser</td></tr>
+<tr><td>drawing</td></tr>
+<tr><td>drawing</td></tr>
+<tr><td>drawing</td></tr>
+<tr><td>easing</td></tr>
+<tr><td>empty library</td></tr>
+<tr><td>Engduino</td></tr>
+<tr><td>export to app</td></tr>
+<tr><td>facebook</td></tr>
+<tr><td>facebook</td></tr>
+<tr><td>game</td></tr>
+<tr><td>game</td></tr>
+<tr><td>game</td></tr>
+<tr><td>game</td></tr><tr><td colspan="1"><a href="http://54.201.192.177/queries.php?request_num=23">More (55)...</a></td></tr></tbody></table><hr><h2>Libraries not covered by tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">name</span> <span style="color: #333;">library_name</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">libraries</span> <span style="color: #333;">l</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">library_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_libraries</span>
+  ) 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">name</span></pre></div><table border="1"><tbody><tr><th>library_name</th></tr><tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td>. M A R L E Y barbiie.</td></tr>
+<tr><td>1 BİLGİ 2</td></tr>
+<tr><td>10Th Muse-Lyric Search</td></tr>
+<tr><td>123456789</td></tr>
+<tr><td>123456789</td></tr>
+<tr><td>3.6 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.6 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr>
+<tr><td>3.71 McGhee &amp; Balbin Capstone</td></tr><tr><td colspan="1"><a href="http://54.201.192.177/queries.php?request_num=24">More (2909)...</a></td></tr></tbody></table><hr><h2>Number of scripts based on specific tutorials</h2><div class="sql"><pre style="color: black; background-color: white;">(
+  <span style="font-weight:bold;">SELECT</span> 
+    <span style="color: #333;">t</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+    <span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+    <span style="color: #333;">s</span><span>.</span><span style="color: #333;">date</span><span>,</span> 
+    <span style="font-weight:bold;">count</span>(<span style="color: #333;">st</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: purple;">`number of successors`</span><span>,</span> 
+    <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> 
+  <span style="font-weight:bold;">FROM</span> 
+    <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+    <span style="font-weight:bold;">join</span> <span style="color: purple;">`scripts_tutorials`</span> <span style="color: #333;">st</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">st</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> 
+    <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+  <span style="font-weight:bold;">where</span> 
+    <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+  <span style="font-weight:bold;">group by</span> 
+    <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> 
+  <span style="font-weight:bold;">order by</span> 
+    <span style="color: #333;">N</span> <span style="font-weight:bold;">desc</span>
+) 
+<span style="font-weight:bold;">union all</span> 
+  (
+    <span style="font-weight:bold;">SELECT</span> 
+      <span style="color: #333;">t</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+      <span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+      <span style="color: #333;">s</span><span>.</span><span style="color: #333;">date</span><span>,</span> 
+      <span style="font-weight:bold;">count</span>(<span style="color: #333;">st</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: purple;">`number of successors`</span><span>,</span> 
+      <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> 
+    <span style="font-weight:bold;">FROM</span> 
+      <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+      <span style="font-weight:bold;">join</span> <span style="color: purple;">`scripts_tutorials`</span> <span style="color: #333;">st</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">st</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> 
+      <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+    <span style="font-weight:bold;">where</span> 
+      <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span> 
+    <span style="font-weight:bold;">group by</span> 
+      <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> 
+    <span style="font-weight:bold;">order by</span> 
+      <span style="color: #333;">N</span> <span style="font-weight:bold;">desc</span>
+  )</pre></div><h4>SKIPPED (<a href="http://54.201.192.177/queries.php?request_num=25" target="_new">Run query in separate window</a>)</h4><h2>Number of features appearance in tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">distinct</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">tf</span><span>.</span><span style="color: #333;">tutorial_id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`tutorials_features`</span> <span style="color: #333;">tf</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">features</span> <span style="color: #333;">f</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">tf</span><span>.</span><span style="color: #333;">feature_id</span> <span>=</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">N</span> <span style="font-weight:bold;">desc</span></pre></div><h4>SKIPPED (<a href="http://54.201.192.177/queries.php?request_num=26" target="_new">Run query in separate window</a>)</h4><h2>Number of libraries appearance in tutorials</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">distinct</span> <span style="color: #333;">l</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">tl</span><span>.</span><span style="color: #333;">library_id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`tutorials_libraries`</span> <span style="color: #333;">tl</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">libraries</span> <span style="color: #333;">l</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">tl</span><span>.</span><span style="color: #333;">library_id</span> <span>=</span> <span style="color: #333;">l</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">N</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>name</th><th>N</th></tr><tr><td>game</td><td>17</td></tr>
+<tr><td>turtle</td><td>12</td></tr>
+<tr><td>petals</td><td>11</td></tr>
+<tr><td>game</td><td>7</td></tr>
+<tr><td>scratch</td><td>4</td></tr>
+<tr><td>turtle</td><td>4</td></tr>
+<tr><td>game</td><td>3</td></tr>
+<tr><td>controls</td><td>3</td></tr>
+<tr><td>theme</td><td>3</td></tr>
+<tr><td>empty library</td><td>3</td></tr>
+<tr><td>turtle</td><td>3</td></tr>
+<tr><td>drawing</td><td>3</td></tr>
+<tr><td>turtle</td><td>2</td></tr>
+<tr><td>easing</td><td>2</td></tr>
+<tr><td>doitall</td><td>2</td></tr>
+<tr><td>scratch</td><td>2</td></tr>
+<tr><td>facebook</td><td>2</td></tr>
+<tr><td>binary reader</td><td>2</td></tr>
+<tr><td>animations</td><td>1</td></tr>
+<tr><td>game</td><td>1</td></tr>
+<tr><td>scratch</td><td>1</td></tr>
+<tr><td>doitall browser</td><td>1</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=27">More (34)...</a></td></tr></tbody></table><hr><h2>Number of features appearance in scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">distinct</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">sf</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`scripts_features`</span> <span style="color: #333;">sf</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">features</span> <span style="color: #333;">f</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">sf</span><span>.</span><span style="color: #333;">feature_id</span> <span>=</span> <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">f</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">N</span> <span style="font-weight:bold;">desc</span></pre></div><h4>SKIPPED (<a href="http://54.201.192.177/queries.php?request_num=28" target="_new">Run query in separate window</a>)</h4><h2>Number of libraries appearance in scripts</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="font-weight:bold;">distinct</span> <span style="color: #333;">l</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">sl</span><span>.</span><span style="color: #333;">library_id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`scripts_libraries`</span> <span style="color: #333;">sl</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">libraries</span> <span style="color: #333;">l</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">sl</span><span>.</span><span style="color: #333;">library_id</span> <span>=</span> <span style="color: #333;">l</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">l</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">N</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>name</th><th>N</th></tr><tr><td>game</td><td>5511</td></tr>
+<tr><td>turtle</td><td>3758</td></tr>
+<tr><td>game</td><td>3446</td></tr>
+<tr><td>easing</td><td>1738</td></tr>
+<tr><td>animations</td><td>1633</td></tr>
+<tr><td>petals</td><td>959</td></tr>
+<tr><td>turtle</td><td>428</td></tr>
+<tr><td>drawing</td><td>404</td></tr>
+<tr><td>theme</td><td>393</td></tr>
+<tr><td>turtle</td><td>379</td></tr>
+<tr><td>controls</td><td>359</td></tr>
+<tr><td>turtle</td><td>344</td></tr>
+<tr><td>theme</td><td>343</td></tr>
+<tr><td>pixels</td><td>342</td></tr>
+<tr><td>empty library</td><td>305</td></tr>
+<tr><td>turtle</td><td>277</td></tr>
+<tr><td>turtle</td><td>267</td></tr>
+<tr><td>scratch</td><td>244</td></tr>
+<tr><td>turtle</td><td>239</td></tr>
+<tr><td>controls</td><td>208</td></tr>
+<tr><td>game events</td><td>154</td></tr>
+<tr><td>game</td><td>151</td></tr><tr><td colspan="2"><a href="http://54.201.192.177/queries.php?request_num=29">More (409)...</a></td></tr></tbody></table><hr><h2>Number of tutorial successors and completions</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">date</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">st</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">successors</span><span>,</span> 
+  (
+    <span style="font-weight:bold;">select</span> 
+      <span style="font-weight:bold;">count</span>(<span style="color: #333;">ta</span><span>.</span><span style="color: #333;">id</span>) 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_by_author</span> <span style="color: #333;">ta</span> 
+    <span style="font-weight:bold;">where</span> 
+      <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="color: #aaa;">-- and ta.is_completed = true
+</span>
+      ) <span style="color: #333;">completions</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: purple;">`scripts_tutorials`</span> <span style="color: #333;">st</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">st</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="color: #aaa;">-- join scripts s on s.id = st.script_id 
+</span>
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">successors</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>name</th><th>script_id</th><th>date</th><th>successors</th><th>completions</th></tr><tr><td>quadratic equation solver</td><td>qzvj</td><td>2013-11-13 22:30:23</td><td>1574</td><td>0</td></tr>
+<tr><td>wondrous script</td><td>hbdgurrq</td><td>2013-11-13 20:07:20</td><td>1574</td><td>900</td></tr>
+<tr><td>add your own docs</td><td>cadl</td><td>2013-12-03 20:46:36</td><td>1033</td><td>0</td></tr>
+<tr><td>soundboard tutorial</td><td>gjrn</td><td>2013-12-03 19:28:00</td><td>1033</td><td>971</td></tr>
+<tr><td>pixels tutorial</td><td>zkpi</td><td>2013-11-13 22:32:35</td><td>739</td><td>342</td></tr>
+<tr><td>accelero-turtle</td><td>bqyra</td><td>2013-06-12 02:27:59</td><td>507</td><td>0</td></tr>
+<tr><td>Bounce (physics)</td><td>wgckdgrk</td><td>2013-06-06 19:06:36</td><td>507</td><td>285</td></tr>
+<tr><td>physics game walkthrough</td><td>yqxt</td><td>2013-06-12 02:29:49</td><td>507</td><td>285</td></tr>
+<tr><td>first steps with drawing</td><td>ayyxc</td><td>2013-11-13 22:33:45</td><td>392</td><td>380</td></tr>
+<tr><td>label printer</td><td>wdyna</td><td>2013-11-14 06:00:46</td><td>347</td><td>0</td></tr>
+<tr><td>Windows Phone true acceleration</td><td>abqua</td><td>2013-10-25 03:47:13</td><td>322</td><td>0</td></tr>
+<tr><td>tutorial test</td><td>dvmbjubm</td><td>2013-10-24 22:50:06</td><td>322</td><td>263</td></tr>
+<tr><td>beatbox tutorial</td><td>esih</td><td>2013-06-18 23:17:05</td><td>303</td><td>236</td></tr>
+<tr><td>little chat tutorial</td><td>zbljxmvl</td><td>2013-10-30 01:54:54</td><td>196</td><td>139</td></tr>
+<tr><td>path project trial run</td><td>zucmwlck</td><td>2013-11-16 19:41:04</td><td>192</td><td>0</td></tr>
+<tr><td>magic 8 ball tutorial</td><td>olkn</td><td>2013-10-30 15:36:36</td><td>192</td><td>0</td></tr>
+<tr><td>little chat template 5</td><td>akjq</td><td>2013-10-30 01:54:11</td><td>192</td><td>139</td></tr>
+<tr><td>boxed</td><td>srsv</td><td>2013-10-29 13:10:38</td><td>192</td><td>0</td></tr>
+<tr><td>tap mania tutorial</td><td>jyema</td><td>2013-11-16 01:38:33</td><td>192</td><td>139</td></tr>
+<tr><td>little chat template</td><td>nalpa</td><td>2013-10-29 05:29:57</td><td>192</td><td>139</td></tr>
+<tr><td>from blocks to text tutorial</td><td>nrcokfbd</td><td>2013-12-03 02:44:20</td><td>68</td><td>0</td></tr>
+<tr><td>crazy holiday football demo</td><td>uayfb</td><td>2013-12-02 23:27:51</td><td>68</td><td>34</td></tr><tr><td colspan="5"><a href="http://54.201.192.177/queries.php?request_num=30">More (78)...</a></td></tr></tbody></table><hr><h2>Number of tutorial successors and completions (interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">date</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">st</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">successors</span><span>,</span> 
+  (
+    <span style="font-weight:bold;">select</span> 
+      <span style="font-weight:bold;">count</span>(<span style="color: #333;">ta</span><span>.</span><span style="color: #333;">id</span>) 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_by_author</span> <span style="color: #333;">ta</span> 
+    <span style="font-weight:bold;">where</span> 
+      <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="color: #aaa;">-- and ta.is_completed = true
+</span>
+      ) <span style="color: #333;">completions</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: purple;">`scripts_tutorials`</span> <span style="color: #333;">st</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">st</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="color: #aaa;">-- join scripts s on s.id = st.script_id 
+</span>
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">successors</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>name</th><th>script_id</th><th>date</th><th>successors</th><th>completions</th></tr><tr><td>wondrous script</td><td>hbdgurrq</td><td>2013-11-13 20:07:20</td><td>1574</td><td>900</td></tr>
+<tr><td>soundboard tutorial</td><td>gjrn</td><td>2013-12-03 19:28:00</td><td>1033</td><td>971</td></tr>
+<tr><td>pixels tutorial</td><td>zkpi</td><td>2013-11-13 22:32:35</td><td>739</td><td>342</td></tr>
+<tr><td>first steps with drawing</td><td>ayyxc</td><td>2013-11-13 22:33:45</td><td>392</td><td>380</td></tr>
+<tr><td>tutorial test</td><td>dvmbjubm</td><td>2013-10-24 22:50:06</td><td>322</td><td>263</td></tr>
+<tr><td>little chat tutorial</td><td>zbljxmvl</td><td>2013-10-30 01:54:54</td><td>196</td><td>139</td></tr>
+<tr><td>magic 8 ball tutorial</td><td>olkn</td><td>2013-10-30 15:36:36</td><td>192</td><td>0</td></tr>
+<tr><td>tap mania tutorial</td><td>jyema</td><td>2013-11-16 01:38:33</td><td>192</td><td>139</td></tr>
+<tr><td>from blocks to text tutorial</td><td>nrcokfbd</td><td>2013-12-03 02:44:20</td><td>68</td><td>0</td></tr>
+<tr><td>scratch pong tutorial</td><td>vffdb</td><td>2013-12-19 07:23:31</td><td>59</td><td>56</td></tr>
+<tr><td>Build Your First App M3T2</td><td>lkzba</td><td>2013-12-10 22:54:18</td><td>46</td><td>41</td></tr>
+<tr><td>accelero colors tutorial</td><td>dwyva</td><td>2013-11-04 10:49:28</td><td>36</td><td>0</td></tr>
+<tr><td>accelero-turtle</td><td>tblca</td><td>2013-11-03 08:36:17</td><td>36</td><td>34</td></tr>
+<tr><td>accelero-turtle</td><td>nstka</td><td>2013-11-03 06:07:06</td><td>36</td><td>34</td></tr>
+<tr><td>bubble popper tutorial</td><td>oplh</td><td>2013-11-23 00:08:30</td><td>23</td><td>23</td></tr>
+<tr><td>Build Your First App M4T4</td><td>snmga</td><td>2013-12-10 22:52:47</td><td>7</td><td>0</td></tr>
+<tr><td>Build Your First App M4T3</td><td>ckoj</td><td>2013-12-10 22:52:16</td><td>7</td><td>7</td></tr>
+<tr><td>cutest voting app tutorial</td><td>rjleadvn</td><td>2013-11-15 06:18:56</td><td>2</td><td>0</td></tr>
+<tr><td>amazing script 2</td><td>ydqn</td><td>2013-11-14 22:39:55</td><td>2</td><td>1</td></tr>
+</tbody></table><hr><h2>Number of tutorial successors and completions (non-interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">name</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">script_id</span><span>,</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">date</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">st</span><span>.</span><span style="color: #333;">script_id</span>) <span style="color: #333;">successors</span><span>,</span> 
+  (
+    <span style="font-weight:bold;">select</span> 
+      <span style="font-weight:bold;">count</span>(<span style="color: #333;">ta</span><span>.</span><span style="color: #333;">id</span>) 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">tutorials_by_author</span> <span style="color: #333;">ta</span> 
+    <span style="font-weight:bold;">where</span> 
+      <span style="color: #333;">ta</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="color: #aaa;">-- and ta.is_completed = true
+</span>
+      ) <span style="color: #333;">completions</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+  <span style="font-weight:bold;">join</span> <span style="color: purple;">`scripts_tutorials`</span> <span style="color: #333;">st</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">st</span><span>.</span><span style="color: #333;">tutorial_id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="color: #aaa;">-- join scripts s on s.id = st.script_id 
+</span>
+  <span style="font-weight:bold;">join</span> <span style="color: #333;">scripts</span> <span style="color: #333;">s</span> <span style="font-weight:bold;">on</span> <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> <span>=</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">script_id</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span> 
+<span style="font-weight:bold;">group by</span> 
+  <span style="color: #333;">s</span><span>.</span><span style="color: #333;">id</span> 
+<span style="font-weight:bold;">order by</span> 
+  <span style="color: #333;">successors</span> <span style="font-weight:bold;">desc</span></pre></div><table border="1"><tbody><tr><th>name</th><th>script_id</th><th>date</th><th>successors</th><th>completions</th></tr><tr><td>quadratic equation solver</td><td>qzvj</td><td>2013-11-13 22:30:23</td><td>1574</td><td>0</td></tr>
+<tr><td>add your own docs</td><td>cadl</td><td>2013-12-03 20:46:36</td><td>1033</td><td>0</td></tr>
+<tr><td>accelero-turtle</td><td>bqyra</td><td>2013-06-12 02:27:59</td><td>507</td><td>0</td></tr>
+<tr><td>Bounce (physics)</td><td>wgckdgrk</td><td>2013-06-06 19:06:36</td><td>507</td><td>285</td></tr>
+<tr><td>physics game walkthrough</td><td>yqxt</td><td>2013-06-12 02:29:49</td><td>507</td><td>285</td></tr>
+<tr><td>label printer</td><td>wdyna</td><td>2013-11-14 06:00:46</td><td>347</td><td>0</td></tr>
+<tr><td>Windows Phone true acceleration</td><td>abqua</td><td>2013-10-25 03:47:13</td><td>322</td><td>0</td></tr>
+<tr><td>beatbox tutorial</td><td>esih</td><td>2013-06-18 23:17:05</td><td>303</td><td>236</td></tr>
+<tr><td>path project trial run</td><td>zucmwlck</td><td>2013-11-16 19:41:04</td><td>192</td><td>0</td></tr>
+<tr><td>little chat template 5</td><td>akjq</td><td>2013-10-30 01:54:11</td><td>192</td><td>139</td></tr>
+<tr><td>boxed</td><td>srsv</td><td>2013-10-29 13:10:38</td><td>192</td><td>0</td></tr>
+<tr><td>little chat template</td><td>nalpa</td><td>2013-10-29 05:29:57</td><td>192</td><td>139</td></tr>
+<tr><td>crazy holiday football demo</td><td>uayfb</td><td>2013-12-02 23:27:51</td><td>68</td><td>34</td></tr>
+<tr><td>flip coin game</td><td>hrsctdel</td><td>2013-05-01 22:50:19</td><td>58</td><td>0</td></tr>
+<tr><td>Diamonds and Rubys</td><td>qtlsvzmz</td><td>2013-04-29 23:56:38</td><td>58</td><td>50</td></tr>
+<tr><td>groups</td><td>rxsr</td><td>2013-12-12 21:57:14</td><td>46</td><td>0</td></tr>
+<tr><td>offline support</td><td>jotdxhfw</td><td>2013-11-23 02:55:42</td><td>23</td><td>0</td></tr>
+<tr><td>for</td><td>wcyp</td><td>2013-04-02 22:13:24</td><td>16</td><td>13</td></tr>
+<tr><td>coding guidelines</td><td>dbat</td><td>2013-04-02 22:17:54</td><td>15</td><td>0</td></tr>
+<tr><td>doitall browser 4</td><td>xezq</td><td>2013-12-14 10:00:10</td><td>11</td><td>9</td></tr>
+<tr><td>dreamspark</td><td>zbrk</td><td>2013-04-02 22:09:56</td><td>9</td><td>0</td></tr>
+<tr><td>calendrier</td><td>vodya</td><td>2013-07-07 13:30:25</td><td>8</td><td>7</td></tr><tr><td colspan="5"><a href="http://54.201.192.177/queries.php?request_num=32">More (59)...</a></td></tr></tbody></table><hr><h2>Number of tutorial with and without successors</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'WITHOUT'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">tutorial_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_tutorials</span> <span style="color: #333;">st</span>
+  ) 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'WITH'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">tutorial_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_tutorials</span> <span style="color: #333;">st</span>
+  ) 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'TOTAL'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span></pre></div><table border="1"><tbody><tr><th>WITHOUT</th><th>N</th></tr><tr><td>WITHOUT</td><td>349</td></tr>
+<tr><td>WITH</td><td>78</td></tr>
+<tr><td>TOTAL</td><td>427</td></tr>
+</tbody></table><hr><h2>Number of tutorial with and without successors (interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'WITHOUT'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">tutorial_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_tutorials</span> <span style="color: #333;">st</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'WITH'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">tutorial_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_tutorials</span> <span style="color: #333;">st</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'TOTAL'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="font-weight:bold;">true</span></pre></div><table border="1"><tbody><tr><th>WITHOUT</th><th>N</th></tr><tr><td>WITHOUT</td><td>30</td></tr>
+<tr><td>WITH</td><td>19</td></tr>
+<tr><td>TOTAL</td><td>49</td></tr>
+</tbody></table><hr><h2>Number of tutorial with and without successors (non-interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'WITHOUT'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">not</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">tutorial_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_tutorials</span> <span style="color: #333;">st</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'WITH'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span> <span style="font-weight:bold;">in</span> (
+    <span style="font-weight:bold;">select</span> 
+      <span style="color: #333;">tutorial_id</span> 
+    <span style="font-weight:bold;">from</span> 
+      <span style="color: #333;">scripts_tutorials</span> <span style="color: #333;">st</span>
+  ) 
+  <span style="font-weight:bold;">and</span> <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span> 
+<span style="font-weight:bold;">union</span> 
+<span style="font-weight:bold;">select</span> 
+  <span style="color: blue;">'TOTAL'</span><span>,</span> 
+  <span style="font-weight:bold;">count</span>(<span style="color: #333;">t</span><span>.</span><span style="color: #333;">id</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">from</span> 
+  <span style="color: #333;">tutorials</span> <span style="color: #333;">t</span> 
+<span style="font-weight:bold;">where</span> 
+  <span style="color: #333;">t</span><span>.</span><span style="color: #333;">is_interactive</span> <span>=</span> <span style="color: #333;">false</span></pre></div><table border="1"><tbody><tr><th>WITHOUT</th><th>N</th></tr><tr><td>WITHOUT</td><td>319</td></tr>
+<tr><td>WITH</td><td>59</td></tr>
+<tr><td>TOTAL</td><td>378</td></tr>
+</tbody></table><hr><h2>Statistics of tutorial completions </h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`AUTHORS_STATS`</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>number_of_completed_tutorials</th><th>N</th></tr><tr><td>14</td><td>1</td></tr>
+<tr><td>11</td><td>1</td></tr>
+<tr><td>10</td><td>5</td></tr>
+<tr><td>9</td><td>2</td></tr>
+<tr><td>8</td><td>6</td></tr>
+<tr><td>7</td><td>14</td></tr>
+<tr><td>6</td><td>16</td></tr>
+<tr><td>5</td><td>36</td></tr>
+<tr><td>4</td><td>95</td></tr>
+<tr><td>3</td><td>85</td></tr>
+<tr><td>2</td><td>642</td></tr>
+<tr><td>1</td><td>2066</td></tr>
+<tr><td>0</td><td>15022</td></tr>
+</tbody></table><hr><h2>Statistics of tutorial completions (interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`AUTHORS_STATS_INTERACTIVE`</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>number_of_completed_tutorials</th><th>N</th></tr><tr><td>8</td><td>2</td></tr>
+<tr><td>7</td><td>3</td></tr>
+<tr><td>6</td><td>4</td></tr>
+<tr><td>5</td><td>12</td></tr>
+<tr><td>4</td><td>24</td></tr>
+<tr><td>3</td><td>106</td></tr>
+<tr><td>2</td><td>312</td></tr>
+<tr><td>1</td><td>2146</td></tr>
+</tbody></table><hr><h2>Statistics of tutorial completions (non-interactive)</h2><div class="sql"><pre style="color: black; background-color: white;"><span style="font-weight:bold;">SELECT</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span><span>,</span> 
+  <span style="font-weight:bold;">COUNT</span>(<span>*</span>) <span style="color: #333;">N</span> 
+<span style="font-weight:bold;">FROM</span> 
+  <span style="color: purple;">`AUTHORS_STATS_NONINTERACTIVE`</span> 
+<span style="font-weight:bold;">GROUP BY</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> 
+<span style="font-weight:bold;">ORDER BY</span> 
+  <span style="color: #333;">number_of_completed_tutorials</span> <span style="font-weight:bold;">DESC</span></pre></div><table border="1"><tbody><tr><th>number_of_completed_tutorials</th><th>N</th></tr><tr><td>6</td><td>3</td></tr>
+<tr><td>5</td><td>1</td></tr>
+<tr><td>4</td><td>10</td></tr>
+<tr><td>3</td><td>30</td></tr>
+<tr><td>2</td><td>376</td></tr>
+<tr><td>1</td><td>290</td></tr>
+</tbody></table><hr>
+
+</body></html>
