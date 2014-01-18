@@ -2,7 +2,22 @@
 
 $save_csv_script = 'save_csv.php';
 
-$data = array(
+include_once ('config.php');
+
+$data = array();
+
+$res = mysql_query("select * from queries");
+
+while( $row = mysql_fetch_assoc($res) ) {
+    
+    $data[] =  array(
+        'name' => $row['name'],
+        'query' => $row['query'],
+        'skip' => $row['skip']
+    );
+}
+
+/*$data = array(
 	array(
         'name' => 'General stats',
 		'query' => "select 'table', 'count' from dual
@@ -309,4 +324,4 @@ select 'TOTAL', count(t.id) N from tutorials t where t.is_interactive = false"
         'name' => 'Statistics of tutorial completions (non-interactive)',
         'query' => "SELECT number_of_completed_tutorials, COUNT( * ) N FROM `AUTHORS_STATS_NONINTERACTIVE` GROUP BY number_of_completed_tutorials ORDER BY number_of_completed_tutorials DESC"
     ),
-);
+);*/
