@@ -65,4 +65,4 @@ WHERE s.author_id IN
 FROM tutorials_by_normalauthor ta
 WHERE is_completed = TRUE
 GROUP BY author_id
-HAVING COUNT(author_id) = 2);
+HAVING COUNT(author_id) >= 2);
