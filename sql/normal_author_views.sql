@@ -39,3 +39,30 @@ AS SELECT
    `s`.`installations` AS `installations`,
    `s`.`runs` AS `runs`
 FROM `scripts` `s` where `s`.`author_id` in (select `normal_authors`.`id` from `normal_authors`);
+
+CREATE OR REPLACE VIEW `notutorial_scripts`
+AS SELECT * FROM normalauthor_scripts s
+WHERE s.author_id NOT IN (SELECT DISTINCT author_id FROM tutorials_by_normalauthor);
+
+CREATE OR REPLACE VIEW `tutorial0_scripts`
+AS SELECT s.* FROM normalauthor_scripts s
+INNER JOIN tutorials_by_normalauthor ta ON s.author_id = ta.author_id
+WHERE ta.author_id NOT IN (SELECT DISTINCT author_id FROM tutorials_by_normalauthor WHERE is_completed = TRUE);
+
+CREATE OR REPLACE VIEW `tutorial1_scripts`
+AS SELECT s.* FROM normalauthor_scripts s
+WHERE s.author_id IN
+(SELECT DISTINCT author_id
+FROM tutorials_by_normalauthor ta
+WHERE is_completed = TRUE
+GROUP BY author_id
+HAVING COUNT(author_id) = 1);
+
+CREATE OR REPLACE VIEW `tutorial2plus_scripts`
+AS SELECT s.* FROM normalauthor_scripts s
+WHERE s.author_id IN
+(SELECT DISTINCT author_id
+FROM tutorials_by_normalauthor ta
+WHERE is_completed = TRUE
+GROUP BY author_id
+HAVING COUNT(author_id) = 2);
