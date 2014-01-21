@@ -9,9 +9,7 @@
     JOIN scripts_hashtags sht ON sht.hashtag_id = ht.id 
     JOIN scripts s ON sht.script_id = s.id 
     where 
-    -- ht.name in ('tutorials', 'stepbystep', 'stepByStep')
-    ht.name in ('stepbystep', 'stepByStep', 'tutorials', 'interactiveTutorial')
-    ";
+    ht.name in " . generateWhereClauseForTutorials();
 	
 	$res = mysql_query($tutorials_sql);
 	$chunks = array();
@@ -47,7 +45,8 @@
             }
 			if(find_chunks($lines, $chunks_list)) {
 				print_if_cli("FOUND all chunks (from script id " .$script_id. ") in script with id " . $script['id']);
-				if(map_tutorials_to_scripts($script_id, $script['id'], 1)) {
+                $is_completed = 1;
+				if(map_tutorials_to_scripts($script_id, $script['id'], $is_completed)) {
 					print_if_cli("	Mapping has been added to the database" );
 				}
 				$total_matches++;
@@ -55,7 +54,8 @@
 				$first_5_chunks = array_slice($chunks_list, 0, 5);
 				if(find_chunks($lines, $first_5_chunks)){
 					print_if_cli("FOUND first 5 chunks (from script id " .$script_id. ") in script with id " . $script['id'] );
-					if(map_tutorials_to_scripts($script_id, $script['id'], 0)) {
+                    $is_completed = 0;
+					if(map_tutorials_to_scripts($script_id, $script['id'], $is_completed)) {
 						print_if_cli("	Partial mapping has been added to the database");
 					}
 					$partial_matches++;

@@ -54,6 +54,36 @@ jQuery(document).ready(function() {
 	})
 })
 
+function createCookie(name, value, expires, path, domain) {
+  var cookie = name + "=" + escape(value) + ";";
+ 
+  if (expires) {
+    // If it's a date
+    if(expires instanceof Date) {
+      // If it isn't a valid date
+      if (isNaN(expires.getTime()))
+       expires = new Date();
+    }
+    else
+      expires = new Date(new Date().getTime() + parseInt(expires) * 1000 * 60 * 60 * 24);
+ 
+    cookie += "expires=" + expires.toGMTString() + ";";
+  }
+ 
+  if (path)
+    cookie += "path=" + path + ";";
+  if (domain)
+    cookie += "domain=" + domain + ";";
+ 
+  document.cookie = cookie;
+}
+
+function getCookie(name) {
+  var regexp = new RegExp("(?:^" + name + "|;\s*"+ name + ")=(.*?)(?:;|$)", "g");
+  var result = regexp.exec(document.cookie);
+  return (result === null) ? null : result[1];
+}
+
 function clearRequests () {
 	if(!$.isEmptyObject(successorsRequests)) {
 		successorsRequests = successorsRequests.filter(function(item) {return item.readyState != 4} )
@@ -113,7 +143,7 @@ function getChunksData(url, data) {
 			//console.log('key: ' + key + ", value: " + value)
 			if(data['continuation']) {
 				continuation = data['continuation'];
-				console.log("fetching next " + data['continuation'] + " items... ")
+                console.log("fetching next " + data['continuation'] + " items... ")
 			}
 			if(json['continuation'] > 0) {
 				data['continuation'] = json['continuation']
@@ -136,19 +166,40 @@ function getChunksData(url, data) {
 	});
 }
 
+function waitForSaveScriptsToFinish() {
+    stoppedFlag = false;
+    while(scriptSaveRequests.length > 300) {
+        stoppedFlag = true;
+        var timeout = 1;
+//        console.log('   Number of current save requests is ' 
+//                    + scriptSaveRequests.length + '. Waiting ' 
+//                    + timeout + ' seconds for other requests to finish...' );
+        setTimeout(function () {
+            clearRequests();
+        }, timeout * 1000);
+    }
+    if(stoppedFlag) {
+        console.log("   Scripts download resumed.");
+    }
+}
+
 function getData(url, data) {
 	if ( continuation && !isDownloading && (continuation > 0 || continuation != '' )) {
 		data['continuation'] = continuation;
 	}
 	isDownloading = true;
+    //waitForSaveScriptsToFinish();
 	scriptsRequest = $.ajax({url: url, 
 		dataType: "json",
 		data: data,
 		success: function(json) {
 			$.each(json['items'], function(i, item) { 
 				var scriptid = item['id']
+//                if(scriptSaveRequests.length > 80) {
+//                    setTimeout(function() {console.log("Resumed scripts execution after 0.5s pause")}, 500 );
+//                }
 				clearRequests()
-				successorsRequests.push($.ajax({
+                successorsRequests.push($.ajax({
 					url: 'https://www.touchdevelop.com/api/' + scriptid + '/successors',
 					dataType: "json",
 					success: function(json) {
@@ -159,7 +210,7 @@ function getData(url, data) {
 								type: 'post',
 								dataType: 'json',
 								success: function(json) {
-									var results = d.toLocaleTimeString() + ": "; 
+									var results = new Date().toLocaleTimeString() + ": "; 
 									results += "Scripts: " + json.scripts + "; ";
 									results += "Authors: " + json.authors + "; "
 									results += "Features: " + json.features + "; "
@@ -175,10 +226,12 @@ function getData(url, data) {
 			})
 			//console.log('key: ' + key + ", value: " + value)
 			if(data['continuation']) {
-				console.log("fetching next " + data['continuation'] + " items... ")
+                console.log("fetching next " + data['continuation'] + " items... ")
 			}
 			if(json['continuation'] > 0 || json['continuation'] != '' ) {
 				continuation = data['continuation'];
+//                bake_cookie('continuation', continuation);
+                createCookie('continuation', continuation);
 				data['continuation'] = json['continuation'];
 				getData(url, data)
 			} else {
