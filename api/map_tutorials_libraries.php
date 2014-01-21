@@ -3,7 +3,7 @@
 	include('functions.php');
 //	ini_set('max_execution_time', 60*20);
     
-    error_reporting(E_ALL);
+    error_reporting(E_ERROR);
     
 //    $scripts_sql = "select script_id, id from scripts where id not in (select script_id from scripts_libraries) ";
 //    $scripts_sql = "select script_id, id from scripts where script_id = 'hzawjnll'";
