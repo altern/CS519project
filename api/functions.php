@@ -22,6 +22,39 @@ function mysql_insert($table, $inserts) {
 	return mysql_insert_id();
 }
 
+function mysql_update($table_name, $form_data, $where_clause='') {
+    // check for optional where clause
+    $whereSQL = '';
+    if(!empty($where_clause))
+    {
+        // check to see if the 'where' keyword exists
+        if(substr(strtoupper(trim($where_clause)), 0, 5) != 'WHERE')
+        {
+            // not found, add key word
+            $whereSQL = " WHERE ".$where_clause;
+        } else
+        {
+            $whereSQL = " ".trim($where_clause);
+        }
+    }
+    // start the actual SQL statement
+    $sql = "UPDATE ".$table_name." SET ";
+
+    // loop and build the column /
+    $sets = array();
+    foreach($form_data as $column => $value)
+    {
+         $sets[] = "`".$column."` = '".$value."'";
+    }
+    $sql .= implode(', ', $sets);
+
+    // append the where statement
+    $sql .= $whereSQL;
+
+    // run and return the query result
+    return mysql_query($sql);
+}
+
 function get_hashes($line) {
 	preg_match_all('/#(\w*)/', $line, $matches);
 	return $matches[1];
@@ -146,6 +179,9 @@ function add_scripts_features_mapping($features, $script_id) {
 }
 
 function find_chunks($lines, $chunks) {
+    if(!count($chunks)) {
+        return FALSE;
+    }
     $last_chunk = array_slice($chunks, -1)[0];
     // print_r($last_chunk);
     foreach($lines as $match_line_num => $line) {
@@ -526,4 +562,26 @@ function export_query_results($request_num) {
     header("Pragma: no-cache");
     header("Expires: 0");
     print "$header\n$data";
+}
+
+function add_script_history ($script_id, $author_id, $node_id, $date, $base_id, $succ_id) {
+//    $res = mysql_query('select id from scripts_history '
+//            . ' where '
+//            . ' script_id = ' . $script_id . ' '
+//            . ' and author_id = '.$author_id. ' '
+//            . ' and node_id = '. $node_id. ' '
+//            . ' and base_id = '. $base_id . ' '
+//            . ' and successor_id = '.$succ_id);
+//    $script_history_id = mysql_result($res, 0);
+//    if(empty($script_history_id)) {
+        $script_history_id = mysql_insert('scripts_history', array(
+            'script_id' => $script_id,
+            'author_id' => $author_id,
+            'node_id' => $node_id,
+            'base_id' => $base_id,
+            'date' => $date,
+            'successor_id' => $succ_id,
+        ));
+//    }
+    return $script_history_id;
 }
