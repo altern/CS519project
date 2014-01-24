@@ -7,7 +7,7 @@ include('functions.php');
 error_reporting(E_ERROR);
 
 mysql_query('truncate table scripts_scores');
-mysql_query('truncate table scripts_history');
+//mysql_query('truncate table scripts_history');
 
 $scripts_sql = "select s.id sid, s.name script_name, s.script_id, s.date script_date, 
 s.positivereviews, s.cumulativepositivereviews, s.installations, s.runs,
@@ -44,16 +44,16 @@ while($script_row = mysql_fetch_assoc($res)) {
     );
     $history_count = 0;
     print_if_cli(" $row_count / $total_row_count | Adding history for script {$script_row['script_id']}, author ({$script_row['author_id']} => {$script_row['author_name']}) ...");
-    print_if_cli("Initial scores for script {$script_id_to_download}:" . var_export($scores, true));
+    //print_if_cli("Initial scores for script {$script_id_to_download}:" . var_export($scores, true));
     while($base_script_contents = file_get_contents($url_of_base_script)) {
         $base_script_json = json_decode($base_script_contents, true);
         $date = date("Y-m-d H:i:s", $base_script_json['time']);
         
-        if($script_history_id = add_script_history($script_row['sid'], $script_row['aid'], $base_script_json['id'], $date, $base_id, $succ_id )) {
+        if($script_history_id = add_script_history($script_row['sid'], $base_script_json['userid'], $base_script_json['id'], $date, $base_id, $succ_id )) {
             //$features_dump = var_export($features, true);
             print_if_cli("  Added record to the table scripts_history ({$script_history_id}) : "
             . " script_id => {$script_row['sid']},"
-            . " author_id => {$script_row['aid']},"
+            . " author_id => {$base_script_json['userid']},"
             . " node_id => {$base_script_json['id']},"
             . " date => {$date},"
             . " {$base_id}, {$succ_id}");
@@ -72,8 +72,8 @@ while($script_row = mysql_fetch_assoc($res)) {
     }
     print_if_cli("Length of history tail for script {$script_id_to_download} is {$history_count}");
     $scores['script_id'] = $script_row['sid'];
-    if(mysql_insert('scripts_scores', $scores)) {
-        print_if_cli("Aggregated scores for script {$script_id_to_download}:" . var_export($scores, true));
-    }
+//    if(mysql_insert('scripts_scores', $scores)) {
+//        print_if_cli("Aggregated scores for script {$script_id_to_download}:" . var_export($scores, true));
+//    }
     $count++;
 }
