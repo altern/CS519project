@@ -6,8 +6,8 @@ include('functions.php');
 
 error_reporting(E_ERROR);
 
-mysql_query('truncate table scripts_scores');
-//mysql_query('truncate table scripts_history');
+//mysql_query('truncate table scripts_scores');
+mysql_query('truncate table scripts_history');
 
 $scripts_sql = "select s.id sid, s.name script_name, s.script_id, s.date script_date, 
 s.positivereviews, s.cumulativepositivereviews, s.installations, s.runs,
