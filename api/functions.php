@@ -145,7 +145,7 @@ function add_scripts_libraries_mapping($script_data, $script_id) {
                     'script_id' => $script_id,
                     'library_id' => $library_id
                 ));
-                print_if_cli("  added mapping $script_id => $library_id");
+                print_if_cli("  added scripts_libraries mapping $script_id => $library_id");
             }
         }
         if($script_libraries_id) { return TRUE; }
