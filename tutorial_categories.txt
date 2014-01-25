@@ -1,0 +1,53 @@
+1. try one of these first
+---
+turtle drawings
+monster slicer
+soundboard
+
+2. games
+---
+love me not
+falling rocks
+bubble popper
+bouncing bubbles
+
+3. apps
+---
+tap mania
+cutest voting app
+
+4. turtle
+---
+accelero-turtle
+turtle triangle spiral
+turtle fractals
+turtle tree
+
+5. graphics
+---
+shape drawings
+pixels
+
+6. from blocks to text
+---
+dancing cat
+hide and seek
+pong
+
+7. math & science
+---
+quadratic equation solver
+
+8. gadgets
+---
+sphero turtle
+
+9. others
+---
+small tutorial
+
+
+Name	Type	OrderGroup
+turtle drawings	"try one of these first"	1
+monster slicer	"try one of these first"	1
+
