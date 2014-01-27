@@ -374,13 +374,35 @@ function is_interactive($script_content) {
 }
 
 function download_script($script_short_id) {
+    $res2 = mysql_query('select id from scripts where script_id = "' . $script_short_id . '"');
+	$script_id = mysql_result($res2, 0);
+    if($script_id) {
+        print_if_cli("  Script $script_short_id already exists in database");
+        return $script_id;
+    }
+    
 	$script_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id ), true);
 	$author_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_info['userid'] ), true);
 	$features_info = json_decode(file_get_contents("http://touchdevelop.com/api/" . $script_short_id . '/features' ), true);
     $features = $features_info['items'];
 	$script_content = file_get_contents("http://touchdevelop.com/api/" . $script_short_id . "/text");
 	
-	$res1 = mysql_query('select id from authors where author_id = "' . $script_info['userid'] . '"');
+	$description = $script_info['description'];	
+    
+    $script_id = mysql_insert('scripts', array(
+        'content' => $script_content, 
+        'script_id' => $script_short_id, 
+        'date' => date("Y-m-d H:i:s", $script_info['time']), 
+        'author_id' => $author_id, 
+        'name' => $script_info['name'], 
+        'description' => $description,
+        'positivereviews' => $script_info['positivereviews'],
+        'cumulativepositivereviews' => $script_info['cumulativepositivereviews'],
+        'installations' => $script_info['installations'],
+        'runs' => $script_info['runs']
+    ));    
+    
+    $res1 = mysql_query('select id from authors where author_id = "' . $script_info['userid'] . '"');
 	$author_id = mysql_result($res1, 0);
 	
 	if(empty($author_id)) {
@@ -395,27 +417,6 @@ function download_script($script_short_id) {
             'score' => $author_info['score']
         ));
 	}
-	
-	$description = $script_info['description'];
-	
-    $res2 = mysql_query('select id from scripts where script_id = "' . $script_short_id . '"');
-	$script_id = mysql_result($res2, 0);
-    
-    if(!$script_id) {
-        $script_id = mysql_insert('scripts', array(
-            'content' => $script_content, 
-            'script_id' => $script_short_id, 
-            'date' => date("Y-m-d H:i:s", $script_info['time']), 
-            'author_id' => $author_id, 
-            'name' => $script_info['name'], 
-            'description' => $description,
-            'positivereviews' => $script_info['positivereviews'],
-            'cumulativepositivereviews' => $script_info['cumulativepositivereviews'],
-            'installations' => $script_info['installations'],
-            'runs' => $script_info['runs']
-        ));
-    }
-    
     
 	if($script_info['islibrary'] == 'true') {
         $library_id = mysql_insert('libraries', array(
@@ -584,4 +585,12 @@ function add_script_history ($script_id, $author_id, $node_id, $date, $base_id, 
         ));
 //    }
     return $script_history_id;
+}
+
+function get_missing_scripts_query() {
+    return "select sh.node_id, a.name, a.author_id 
+    from scripts_history sh 
+    join scripts s on s.id = sh.script_id
+    join authors a on a.id = s.author_id
+    where a.author_id <> sh.author_id ";
 }
