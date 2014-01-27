@@ -2,6 +2,8 @@ var sourceCodeSnippetsList = {};
 var continuation = '';
 var scriptsRequest, chunksRequest, successorsRequests = [], scriptSaveRequests = [];
 var isDownloading = false;
+var missing_scripts_count = 0;
+var waitingOutputFlag = false;
 
 (function($){
      $.fn.extend({
@@ -37,6 +39,20 @@ jQuery(document).ready(function() {
 		setLoadImage()
 		$('#output img').center()
 		getData(scriptsUrl, {})
+	})
+    
+	jQuery('#download_missing_scripts').click(function() {
+		setLoadImage()
+		$('#output img').center()
+        $.ajax({url: "api/get_count_of_missing_scripts.php",
+            dataType: 'text',
+            success: function(count) {
+                missing_scripts_count = parseInt(count);
+                console.log("Total number of missing scripts: " + missing_scripts_count);
+                var url = "api/get_missing_scripts.php";
+                getMissingScripts(url, {})
+            }
+        });
 	})
 	jQuery('#download_libraries').click(function() {
 		setLoadImage()
@@ -86,10 +102,10 @@ function getCookie(name) {
 
 function clearRequests () {
 	if(!$.isEmptyObject(successorsRequests)) {
-		successorsRequests = successorsRequests.filter(function(item) {return item.readyState != 4} )
+		successorsRequests = successorsRequests.filter(function(item) {return item.readyState != 4 && item.readyState != 0} )
 	}
 	if(!$.isEmptyObject(scriptSaveRequests)) {
-		scriptSaveRequests = scriptSaveRequests.filter(function(item) {return item.readyState != 4} )
+		scriptSaveRequests = scriptSaveRequests.filter(function(item) {return item.readyState != 4 && item.readyState != 0} )
 	}
 }
 
@@ -100,7 +116,6 @@ $(document).keydown(function(event) {
 			isDownloading = false;
 			scriptsRequest.abort();
 		}
-		clearRequests()
 		if(!$.isEmptyObject(successorsRequests)) {
 			$.each(successorsRequests, function(i, request) {
 				request.abort();
@@ -111,6 +126,7 @@ $(document).keydown(function(event) {
 				request.abort();
 			})
 		}
+		clearRequests()
 	}
 });	
 
@@ -166,20 +182,68 @@ function getChunksData(url, data) {
 	});
 }
 
-function waitForSaveScriptsToFinish() {
-    stoppedFlag = false;
-    while(scriptSaveRequests.length > 300) {
-        stoppedFlag = true;
-        var timeout = 1;
-//        console.log('   Number of current save requests is ' 
-//                    + scriptSaveRequests.length + '. Waiting ' 
-//                    + timeout + ' seconds for other requests to finish...' );
-        setTimeout(function () {
-            clearRequests();
-        }, timeout * 1000);
-    }
-    if(stoppedFlag) {
-        console.log("   Scripts download resumed.");
+function getMissingScripts(url, data) {
+	if ( continuation && !isDownloading && (continuation > 0 || continuation != '' )) {
+		data['continuation'] = continuation;
+	}
+	isDownloading = true;
+    
+    scriptsRequest = $.ajax({url: url, 
+        dataType: "json",
+        data: data,
+        success: function(json) {
+            $.each(json['items'], function(i, item) { 
+                console.log("Saving script " + item + " ...");
+                var scriptid = item;
+
+                scriptSaveRequests.push($.ajax({ url: "api/save_script.php",
+                    data: {id: scriptid},
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(json) {
+                        var results = new Date().toLocaleTimeString() + ": "; 
+                        results += "Scripts: " + json.scripts + "; ";
+                        results += "Authors: " + json.authors + "; "
+                        results += "Features: " + json.features + "; "
+                        results += "Tutorials: " + json.tutorials + "; "
+                        results += "Hashtags: " + json.hashtags + "; "
+                        results += "Libraries: " + json.libraries + "; "
+                        console.log(results);
+                    }
+                }));
+            });
+            waitForScriptsToFinish();
+            //console.log('key: ' + key + ", value: " + value)
+            if(data['continuation']) {
+                console.log("fetching next " + data['continuation'] + " items out of " + missing_scripts_count + "... ")
+            }
+            if((json['continuation'] > 0 && json['continuation'] < missing_scripts_count) ) {
+                continuation = data['continuation'];
+                data['continuation'] = json['continuation'];
+                if(isDownloading) {
+                    getMissingScripts(url, data);
+                }
+            } else {
+                $(document).ajaxStop(function () { // wait for all ajax calls to complete
+                     $('#output').html('Scripts have been successfully downloaded')
+                     isDownloading = false;
+                });
+            }
+        }
+    });
+}
+
+function waitForScriptsToFinish() {
+    if(scriptSaveRequests.length == 0 && successorsRequests.length == 0) {
+        return true;
+    } else {
+        var timeout = 10000;
+        clearRequests();
+        if(waitingOutputFlag) {
+            console.log("Waiting " + (timeout / 1000) + " sec more for " + 
+                (scriptSaveRequests.length + successorsRequests.length) + " scripts to finish...");
+        }
+        setTimeout(waitForScriptsToFinish, timeout);
     }
 }
 
@@ -210,7 +274,8 @@ function getData(url, data) {
 								type: 'post',
 								dataType: 'json',
 								success: function(json) {
-									var results = new Date().toLocaleTimeString() + ": "; 
+                                    var results = new Date().toLocaleTimeString() + ": "; 
+                                    results += "";
 									results += "Scripts: " + json.scripts + "; ";
 									results += "Authors: " + json.authors + "; "
 									results += "Features: " + json.features + "; "
