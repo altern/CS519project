@@ -178,26 +178,97 @@ function add_scripts_features_mapping($features, $script_id) {
     }
 }
 
-function find_chunks($lines, $chunks) {
-    if(!count($chunks)) {
+function match_line_and_chunk($line, $lines, $line_num, $chunk) {
+    
+}
+
+function is_opening_statemnt ($stmt) {
+    return strpos($stmt, '{') !== FALSE && ! (strpos($stmt, '}') !== FALSE);
+}
+
+function is_closing_statemnt ($stmt) {
+    return strpos($stmt, '}') !== FALSE && ! (strpos($stmt, '{') !== FALSE);
+}
+
+/**
+ * 
+ * @param array $lines
+ * @param array $chunks
+ * @return integer
+ */
+function find_chunks($lines, $chunks = array(), $is_greedy = false) {
+    //print_r(array('chunks' => $chunks));
+    if(!count($chunks) || empty($lines) || !is_array($chunks)) {
         return FALSE;
     }
-    $last_chunk = array_slice($chunks, -1)[0];
-    // print_r($last_chunk);
-    foreach($lines as $match_line_num => $line) {
-
-        if(strpos($line, $last_chunk) !== FALSE) {
+    if(count($chunks) > 1) {
+        $last_chunk = array_slice($chunks, -1)[0];
+        $without_last_chunk = array_slice($chunks, 0, count($chunks) - 1);
+    } else {
+        $last_chunk = $chunks[0];
+        if(empty($last_chunk)) {
+            return FALSE;
+        }
+    }
+    $skip_line_counter = 0;
+    $lines_cutoff = count($lines);
+    $opening_and_closing_statements_index = 0;
+    foreach($lines as $line_num => $line) {
+        $chunk_lines = explode("\n", $last_chunk);
+        
+        if(count($chunk_lines) > 1) {
+            $multiline_chunk_match = find_chunks($lines, $chunk_lines, true);
+            //$skip_line_counter = $multiline_chunk_match - count($chunk_lines); 
+            $match_line_num = $multiline_chunk_match - count($chunk_lines) + 1; // return first line for multiline chunk match 
+            $comparison_result = ($multiline_chunk_match !== FALSE);
+        } else {
+            $comparison_result = (strpos($line, trim($last_chunk)) !== FALSE);
+            $match_line_num = $line_num + 1; // lines numbering starts from zero
+        }
+//        while($skip_line_counter-- > 0) {
+//            print_r(array(
+//                'line' => $line,
+//                'skip_line_counter' => $skip_line_counter
+//            ));
+//            continue; // skip 
+//        }
+        //($multiline_chunk_match == 0 ? $line_num : ($multiline_chunk_match - 1));
+        
+        if($comparison_result) {
+            $another_chunk_exists = (find_chunks(array_slice($lines, $line_num+1), array($last_chunk), $is_greedy) !== FALSE);
+            if($another_chunk_exists) {
+                continue;
+            }
+            
             //echo "Found chunk '$last_chunk' at line $match_line_num: '$line' \n";
+//            print_r(array(
+//                'chunk' => $last_chunk,
+//                'line' => $line,
+//                'line_num' => $match_line_num
+//            ));
             if(count($chunks) > 1) {
-                $without_last_chunk = array_slice($chunks, 0, count($chunks) - 1);
                 $prev_match_line_num = find_chunks($lines, $without_last_chunk);
-                if($prev_match_line_num === FALSE) {return FALSE;}
-                if($prev_match_line_num < $match_line_num) {
-                    return $match_line_num;
-                } else {
-                    print_if_cli( "Order of chunks does not match");
+                if($prev_match_line_num === FALSE) {
                     return FALSE;
+                } else {
+                    
                 }
+                if($is_greedy) { // match only adjacent lines
+                    if($prev_match_line_num == $match_line_num - 1) {
+                        return $match_line_num;
+                    } else {
+                        print_if_cli( "Matched lines are not adjacent for $last_chunk: prev $prev_match_line_num, next $match_line_num");
+                        return FALSE;
+                    }
+                } else { // match previous lines
+                    if($prev_match_line_num <= $match_line_num) {
+                        return $match_line_num;
+                    } else {
+                        print_if_cli( "Order of chunks does not match for chunk $last_chunk: prev $prev_match_line_num, next $match_line_num");
+                        return FALSE;
+                    }
+                }
+                
             } else {
                 return $match_line_num;
             }
@@ -237,6 +308,7 @@ function add_chunk($chunk, $short_script_id, $seq) {
 
 function detect_chunks($script_source) {
     $lines = array();
+    $chunk = array();
     $chunks = array();
     $chunkCount = 0;
     $chunkFlag = false;
@@ -245,25 +317,45 @@ function detect_chunks($script_source) {
     $lines = explode("\n", $script_source);
 
     foreach($lines as $line_with_whitespace) {
-        $line = preg_replace('/^\s*/', '', $line_with_whitespace);
+        if(trim($line_with_whitespace) != '}') {
+            $line = preg_replace('/^\s*/', '', $line_with_whitespace);
+        } else {
+            $line = $line_with_whitespace;
+        }
 
-        if(strpos($line, "//") === FALSE ) {
-            //print_if_cli($line);
-            if($mainFlag && strpos($line, '}') !== FALSE ) {
-                $mainFlag = false;
+        if(strpos($line, "//") !== FALSE ) { // substring '//' not found
+            if($chunkFlag) {
+                if(!empty($chunk)) {
+                    $chunks[] = implode("\n", $chunk);
+                    $chunk = array();
+                }
                 $chunkFlag = false;
             }
+        } else {
+            if($mainFlag && preg_match('/^}/', $line)) {
+                $mainFlag = false;
+                $chunkFlag = false;
+                if(!empty($chunk)) {
+                    $chunks[] = implode("\n", $chunk);
+                    $chunk = array();
+                }
+            }
             if($mainFlag) {
+                
                 $chunkFlag = true;
-                $chunks[] = $line;
-            } elseif(preg_match("/action (.*)main\(\) {/", $line) ) {
+                if(preg_match('/}/', $line)) {
+                    $chunk[] = trim($line);
+                } else {
+                    $chunk[] = $line;
+                }
+                //print_if_cli(var_export($chunk, true));
+            } else if(preg_match("/action (.*)main\(\) {/", $line) ) {
                 $mainFlag = true;
             }
-        } elseif($chunkFlag) {
-            $chunkFlag = false;
-        }
+        } 
     }
     
+    //print_r($chunk);
     return $chunks;
 }
 
