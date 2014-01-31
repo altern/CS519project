@@ -25,20 +25,14 @@ include_once('api/queries_list.php');
 error_reporting(E_ALL);
 $script_url = basename($_SERVER['PHP_SELF']);
 
-$query = "(select t.*, count(*) duplicates, max(s.date) publication_date, concat('http://touchdevelop.com/', s.script_id) tutorial_url,"
-        . " concat('http://touchdevelop.com/api/', s.script_id, '/text') source_url "
-        . " from tutorials t join scripts s on t.script_id = s.id "
-        . " where t.is_interactive = true and s.id in (select script_id from scripts_tutorials) "
-        . " group by s.name"
-        . " order by duplicates desc"
-        . ") union ("
-        . " select t.*, count(*) duplicates, max(s.date) publication_date, concat('http://touchdevelop.com/', s.script_id) tutorial_url,"
-        . " concat('http://touchdevelop.com/api/', s.script_id, '/text') source_url "
-        . " from tutorials t join scripts s on t.script_id = s.id "
-        . " where t.is_interactive = false and s.id in (select script_id from scripts_tutorials)"
-        . " group by s.name"
-        . " order by duplicates desc "
-        . " )";
+$query = "select count(*) cnt, s.name, s.script_id,
+group_concat(c.content SEPARATOR '\n<br />') chunks
+from scripts_chunks sc 
+join chunks c on c.id = sc.chunk_id 
+join scripts s on s.id = sc.script_id
+group by sc.script_id
+having cnt > 3
+ORDER BY `cnt` ASC";
 
 //print_r($query);
 
