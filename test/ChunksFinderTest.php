@@ -165,7 +165,7 @@ box→use_horizontal_layout;',
      */
     public function testOneBlock($script, $chunks) {
         $lines = explode("\n", $script);
-        $line_number_of_last_match = 3;
+        $line_number_of_last_match = 2;
         $this->assertEquals($line_number_of_last_match, find_chunks($lines, $chunks));
     }
     
@@ -188,7 +188,7 @@ box→use_horizontal_layout;',
      */
     public function testOneBlockFewChunks($script, $chunks) {
         $lines = explode("\n", $script);
-        $line_number_of_last_match = 3;
+        $line_number_of_last_match = 2;
         $this->assertEquals($line_number_of_last_match, find_chunks($lines, $chunks));
     }
     
@@ -245,7 +245,8 @@ do box {
                 'do box {
     box→use_horizontal_layout;
 }'
-            )
+            ), 
+            'line_number_of_last_match' => 2
         ));
     }
     
@@ -253,9 +254,8 @@ do box {
      * @test
      * @dataProvider fewLinesOneChunkData
      */
-    public function testFewLinesOneChunk($script, $chunks) {
+    public function testFewLinesOneChunk($script, $chunks, $line_number_of_last_match) {
         $lines = explode("\n", $script);
-        $line_number_of_last_match = 2;
         $this->assertEquals($line_number_of_last_match, find_chunks($lines, $chunks));
     }
     
@@ -303,7 +303,8 @@ do box {
 }',
 'do box {
 }'
-            )
+            ),
+            'line_number_of_last_match' => 4
         ));
     }
     
@@ -311,9 +312,8 @@ do box {
      * @test
      * @dataProvider fewLinesTwoMultilineChunksData
      */
-//    public function testfewLinesTwoMultilineChunks($script, $chunks) {
+//    public function testfewLinesTwoMultilineChunks($script, $chunks, $line_number_of_last_match) {
 //        $lines = explode("\n", $script);
-//        $line_number_of_last_match = 2;
 //        $this->assertEquals($line_number_of_last_match, find_chunks($lines, $chunks));
 //    }
     
@@ -347,6 +347,143 @@ do box {
 //        $lines = explode("\n", $script);
 //        $this->assertTrue(find_chunks($lines, $chunks));
 //    }
-
+    public function multipleStatementsOccurenceData() {
+        return array(
+           array(
+                 'script' => "a = 1;
+box→use_horizontal_layout;
+b = 134;
+c = 546;
+box→use_horizontal_layout;
+d = 678;
+e = 890;",
+                'chunks' => array(
+                    'box→use_horizontal_layout;',
+                    'b = 134;'
+                ),
+               'line_number_of_last_match' => 3
+            ),
+           array(
+                 'script' => "a = 1;
+box→use_horizontal_layout;
+b = 134;
+c = 546;
+box→use_horizontal_layout;
+d = 678;
+e = 890;",
+                'chunks' => array(
+                    'box→use_horizontal_layout;',
+                    'd = 678;'
+                ),
+                'line_number_of_last_match' => 6
+            ),
+           array(
+                 'script' => "do box {
+    a = 1;
+    box→use_horizontal_layout;
+    b = 134;
+    c = 546;
+}
+do box {
+    box→use_horizontal_layout;
+    d = 678;
+    e = 890;
+}",
+                'chunks' => array(
+                    'do box {',
+                    '   box→use_horizontal_layout;',
+                    '   d = 678;',
+                    '   e = 890;',
+                    '}'
+                ),
+                'line_number_of_last_match' => 10
+            ),
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider multipleStatementsOccurenceData
+     */
+    public function testMultipleStatementsOccurence($script, $chunks, $line_number_of_last_match) {
+        $lines = explode("\n", $script);
+        $this->assertEquals($line_number_of_last_match, find_chunks($lines, $chunks));
+    }
+    
+    public function openingStatementsData() {
+        return array(
+            array(
+                'statement' => '',
+                'result' => false
+            ),
+            array(
+                'statement' => '}',
+                'result' => false
+            ),
+            array(
+                'statement' => 'if }',
+                'result' => false
+            ),
+            array(
+                'statement' => 'do box {',
+                'result' => true
+            ),
+            array(
+                'statement' => 'while {',
+                'result' => true
+            ),
+            array(
+                'statement' => 'if $a = 1; {',
+                'result' => true
+            ),
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider openingStatementsData
+     */
+    public function testOpeningStatementsDetection($statement, $result) {
+        $this->assertEquals($result, is_opening_statement($statement));
+    }
+    
+    public function closingStatementsData() {
+        return array(
+            array(
+                'statement' => '',
+                'result' => false
+            ),
+            array(
+                'statement' => '}',
+                'result' => true
+            ),
+            array(
+                'statement' => 'if }',
+                'result' => true
+            ),
+            array(
+                'statement' => 'do box {',
+                'result' => false
+            ),
+            array(
+                'statement' => 'while {',
+                'result' => false
+            ),
+            array(
+                'statement' => 'if $a = 1; {',
+                'result' => false
+            ),
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider closingStatementsData
+     */
+    public function testClosingStatementsDetection($statement, $result) {
+        $this->assertEquals($result, is_closing_statement($statement));
+    }
+    
+    
 }
 
