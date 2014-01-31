@@ -5,6 +5,8 @@
     
     error_reporting(E_ERROR);
     
+    mysql_query('tutorials_libraries');
+    
 //    $scripts_sql = "select script_id, id from scripts where id not in (select script_id from scripts_libraries) ";
 //    $scripts_sql = "select script_id, id from scripts where script_id = 'hzawjnll'";
     $tutorials_sql = "select t.script_id tutorial_id, sl.library_id library_id 
