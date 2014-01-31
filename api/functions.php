@@ -182,14 +182,29 @@ function match_line_and_chunk($line, $lines, $line_num, $chunk) {
     
 }
 
-function is_opening_statemnt ($stmt) {
+function is_opening_statement ($stmt) {
     return strpos($stmt, '{') !== FALSE && ! (strpos($stmt, '}') !== FALSE);
 }
 
-function is_closing_statemnt ($stmt) {
+function is_closing_statement ($stmt) {
     return strpos($stmt, '}') !== FALSE && ! (strpos($stmt, '{') !== FALSE);
 }
-
+function strip_statement_with_curly_braces($chunks) {
+    $stripped_chunks = array();
+    foreach($chunks as $chunk) {
+        if(is_array($chunk)) {
+            $stripped_chunk = strip_statement_with_curly_braces($chunk);
+            if(!empty($stripped_chunk)) {
+                $stripped_chunks[] = $stripped_chunk;
+            }
+        } else {
+            if(!is_opening_statement($chunk) && !is_closing_statement($chunk)) {
+               $stripped_chunks[] = $chunk;
+            }
+        }
+    }
+    return $stripped_chunks;
+}
 /**
  * 
  * @param array $lines
@@ -197,6 +212,9 @@ function is_closing_statemnt ($stmt) {
  * @return integer
  */
 function find_chunks($lines, $chunks = array(), $is_greedy = false) {
+    
+    $chunks = strip_statement_with_curly_braces($chunks);
+    
     //print_r(array('chunks' => $chunks));
     if(!count($chunks) || empty($lines) || !is_array($chunks)) {
         return FALSE;
@@ -212,7 +230,7 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
     }
     $skip_line_counter = 0;
     $lines_cutoff = count($lines);
-    $opening_and_closing_statements_index = 0;
+    
     foreach($lines as $line_num => $line) {
         $chunk_lines = explode("\n", $last_chunk);
         
@@ -222,7 +240,7 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
             $match_line_num = $multiline_chunk_match - count($chunk_lines) + 1; // return first line for multiline chunk match 
             $comparison_result = ($multiline_chunk_match !== FALSE);
         } else {
-            $comparison_result = (strpos($line, trim($last_chunk)) !== FALSE);
+            $comparison_result = (strpos(trim($line), trim($last_chunk)) !== FALSE);
             $match_line_num = $line_num + 1; // lines numbering starts from zero
         }
 //        while($skip_line_counter-- > 0) {
@@ -233,12 +251,16 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
 //            continue; // skip 
 //        }
         //($multiline_chunk_match == 0 ? $line_num : ($multiline_chunk_match - 1));
-        
+//        if(is_opening_statement($last_chunk) || is_closing_statement($last_chunk)) {
+//            print_if_cli("Skipping comparison for chunk $last_chunk...");
+//            continue;
+//        }
+        if(is_opening_statement($line) || is_closing_statement($line)) {
+            //print_if_cli("Skipping comparison for line $line...");
+            continue;
+        }
         if($comparison_result) {
             $another_chunk_exists = (find_chunks(array_slice($lines, $line_num+1), array($last_chunk), $is_greedy) !== FALSE);
-            if($another_chunk_exists) {
-                continue;
-            }
             
             //echo "Found chunk '$last_chunk' at line $match_line_num: '$line' \n";
 //            print_r(array(
@@ -249,7 +271,11 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
             if(count($chunks) > 1) {
                 $prev_match_line_num = find_chunks($lines, $without_last_chunk);
                 if($prev_match_line_num === FALSE) {
-                    return FALSE;
+                    if($another_chunk_exists) {
+                        continue;
+                    } else {
+                        return FALSE;
+                    }
                 } else {
                     
                 }
@@ -258,14 +284,24 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
                         return $match_line_num;
                     } else {
                         print_if_cli( "Matched lines are not adjacent for $last_chunk: prev $prev_match_line_num, next $match_line_num");
-                        return FALSE;
+                        if($another_chunk_exists) {
+                            print_if_cli("  -> Looking for another possible match for $last_chunk");
+                            continue;
+                        } else {
+                            return FALSE;
+                        }
                     }
                 } else { // match previous lines
                     if($prev_match_line_num <= $match_line_num) {
                         return $match_line_num;
                     } else {
                         print_if_cli( "Order of chunks does not match for chunk $last_chunk: prev $prev_match_line_num, next $match_line_num");
-                        return FALSE;
+                        if($another_chunk_exists) {
+                            print_if_cli("  -> Looking for another possible match for $last_chunk");
+                            continue;
+                        } else {
+                            return FALSE;
+                        }
                     }
                 }
                 
