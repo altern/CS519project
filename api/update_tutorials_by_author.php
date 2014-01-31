@@ -3,6 +3,9 @@
 	include('functions.php');
 	error_reporting(E_ERROR);
 	
+    mysql_query('truncate table tutorials_by_author;');
+    mysql_query('truncate table scripts_tutorials;');
+    
 	$tutorials_sql = "
 	SELECT distinct s.id id, s.name name
     FROM `hashtags` ht 
@@ -39,8 +42,8 @@
 	while($script = mysql_fetch_assoc($res3)) {
 		$lines = explode("\n", $script['content']);
 		foreach($chunks as $script_id => $chunks_list) {
-            if(count($chunks_list) < 3) {
-                print_if_cli("Skipping set of chunks. " .count($chunks_list). " chunk(s) is not enough to establish mapping ");
+            if(count(strip_statement_with_curly_braces($chunks_list)) < 3) {
+                print_if_cli("Skipping set of chunks. " .count(strip_statement_with_curly_braces($chunks_list)). " chunk(s) is not enough to establish mapping ");
                 continue;
             }
 			if(find_chunks($lines, $chunks_list)) {
