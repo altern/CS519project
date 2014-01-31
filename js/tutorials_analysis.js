@@ -331,7 +331,7 @@ function getScriptSource(scriptid) {
 					if(mainFlag) {
 						chunkFlag = true
 						chunk.push(line)
-					} else if(line == 'action main() {') {
+					} else if(/action (.*)main\(\) {/.test(line)) {
 						mainFlag = true
 					}
 				} else if(chunkFlag) {
