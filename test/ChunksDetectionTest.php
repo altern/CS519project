@@ -162,24 +162,58 @@ class ChunksDetectionTest extends PHPUnit_Framework_TestCase {
         print_r(array_diff($chunks, $detected_chunks));
         $this->assertTrue($chunks == $detected_chunks);
     }
+
+    public function extractBodyData () {
+        return array(
+            array(
+                'script_id' => 'mizba',
+                'body' => '  // A number of programming environments such as MIT\'s [Scratch](http://scratch.mit.edu/) use **blocks** together with a graphical editor to represent and edit code. This makes it easier and fun for beginners who don\'t have to deal with the strict syntax of professional programming languages.
+  // {pic:main set var:18x4}
+  // **TouchDevelop sits in between those two worlds**: the code is represented in **text** and the editor is **semi-structured** which mostly takes care of the syntax for the beginner.
+  // ### block programming environments
+  // All the block screenshots in this page were taken with Scratch but it should still help if you are using another tool. Here is a non-comprehensive list of block-based environments:
+  // * [Scratch](http://scratch.mit.edu/) from MIT, [AppInventor](http://appinventor.mit.edu/) from MIT, [Snap!](http://snap.berkeley.edu/) from Berkeley,  [Hour Of Code](http://learn.code.org/hoc/1) from code.org, [blockly](https://code.google.com/p/blockly/) from Google,
+  // ### Scratch tutorials
+  // The following tutorials use the [scratch library](/script:xfjtb) which mimics MIT\'s Scratch environment. It allows the students to learn the syntax while reusing common block idioms.
+  // The example of blocks above can be rewritten as follows using this library:
+  @\u267b→scratch→when_flag_clicked($clicked);
+  where clicked() {
+    data→random_number := @\u267b→scratch→pick_random(1, 10);
+  }
+  // #### tutorials
+  // * [dancing cat tutorial](/scratchcattutorial)
+  // * [hide and seek tutorial](/hideandseekscratchtutorial)
+  // * [pong starter](/scratchpongtutorial)
+  // ### more information:
+  // * [scratch reference](/scratchreference), complete map from blocks to actions in the **scratch** library
+  // * [create a blank scratch app](/script:fxifa)
+  // ### other tutorials
+  // These tutorials do not use the **scratch library** and map blocks directly to existing actions.
+  // * **[random number guesser tutorial](/randomnumberguessertutorial)**'
+            ),
+            array(
+                'script_id' => 'qsfn',
+                'body' => 
+'  art;
+  media→create_board(640);
+  $c := colors→red;
+  $c→make_transparent(0);
+  skip;'
+            )
+        );
+    }
     
     /**
      * @test
+     * @dataProvider extractBodyData
      */
-    public function testTest() {
-        $a = array (
-            'codeâ†’tree(100, 5);',
-            'meta private;',
-            'codeâ†’tree(100, 3);
-meta private;'
-        );
-        $b = array(
-            'codeâ†’tree(100, 5);',
-            'meta private;',
-            'codeâ†’tree(100, 3);
-meta private;'
-        );
-        $this->assertTrue($a == $b);
+    public function extractBodyTest($script_id, $body) {
+        $script_source = file_get_contents("http://www.touchdevelop.com/api/$script_id/text");
+        $extracted_body = extract_body($script_source);
+        //print_r(explode("\n",$extracted_body));
+        print_r(array_diff(explode("\n",$body), explode("\n",$extracted_body)));
+        $this->assertTrue($body == $extracted_body);
     }
+    
 }
 
