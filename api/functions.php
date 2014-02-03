@@ -260,7 +260,8 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
             continue;
         }
         if($comparison_result) {
-            $another_chunk_exists = (find_chunks(array_slice($lines, $line_num+1), array($last_chunk), $is_greedy) !== FALSE);
+            //$another_chunk_exists = (find_chunks(array_slice($lines, $line_num+1), array($last_chunk), $is_greedy) !== FALSE);
+            $another_chunk_exists = false;
             
             //echo "Found chunk '$last_chunk' at line $match_line_num: '$line' \n";
 //            print_r(array(
@@ -283,9 +284,9 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
                     if($prev_match_line_num == $match_line_num - 1) {
                         return $match_line_num;
                     } else {
-                        print_if_cli( "Matched lines are not adjacent for $last_chunk: prev $prev_match_line_num, next $match_line_num");
+                        //print_if_cli( "Matched lines are not adjacent for $last_chunk: prev $prev_match_line_num, next $match_line_num");
                         if($another_chunk_exists) {
-                            print_if_cli("  -> Looking for another possible match for $last_chunk");
+                            //print_if_cli("  -> Looking for another possible match for $last_chunk");
                             continue;
                         } else {
                             return FALSE;
@@ -295,9 +296,9 @@ function find_chunks($lines, $chunks = array(), $is_greedy = false) {
                     if($prev_match_line_num <= $match_line_num) {
                         return $match_line_num;
                     } else {
-                        print_if_cli( "Order of chunks does not match for chunk $last_chunk: prev $prev_match_line_num, next $match_line_num");
+                        //print_if_cli( "Order of chunks does not match for chunk $last_chunk: prev $prev_match_line_num, next $match_line_num");
                         if($another_chunk_exists) {
-                            print_if_cli("  -> Looking for another possible match for $last_chunk");
+                            //print_if_cli("  -> Looking for another possible match for $last_chunk");
                             continue;
                         } else {
                             return FALSE;
@@ -340,6 +341,27 @@ function add_chunk($chunk, $short_script_id, $seq) {
         $scripts_chunks_id = mysql_insert('scripts_chunks', array('script_id' => $script_id, 'chunk_id' => $chunk_id, 'seq' => $seq));
     }
     return $scripts_chunks_id;
+}
+
+function extract_body($script_source) {
+    $lines = explode("\n", $script_source);
+    $mainFlag = false;
+    $body_lines = array();
+    foreach($lines as $line) {
+        if(preg_match("/action (.*)main\(\) {/", $line) ) {
+            $mainFlag = true;
+            continue;
+        }
+        if($mainFlag && preg_match('/^}/', $line)) {
+            $mainFlag = false;
+            continue;
+        }
+        
+        if($mainFlag) {
+            $body_lines[] = $line;
+        }
+    }
+    return implode("\n", $body_lines);
 }
 
 function detect_chunks($script_source) {
