@@ -33,19 +33,32 @@
 			}
 		}
 	}
+    $filtered_chunks = array();
+    foreach ($chunks as $id => $chunks_list) {
+        if(count(strip_statement_with_curly_braces($chunks_list)) >=3 ) {
+            $filtered_chunks[$id] = $chunks_list;
+        }
+    }
 	
-	$all_scripts_except_tutorials_sql = "select id, content from scripts where id not in (select script_id from tutorials)";
+	$all_scripts_except_tutorials_sql = "select id, content, script_id from scripts where id not in (select script_id from tutorials)";
 	
 	$res3 = mysql_query($all_scripts_except_tutorials_sql);
+    $total_row_count = mysql_num_rows($res3);
+    $row_count = 0;
 	$total_matches = 0;
 	$partial_matches = 0;
+    $skipped_count = 0;
+    date_default_timezone_set('America/Los_Angeles');
 	while($script = mysql_fetch_assoc($res3)) {
-		$lines = explode("\n", $script['content']);
-		foreach($chunks as $script_id => $chunks_list) {
-            if(count(strip_statement_with_curly_braces($chunks_list)) < 3) {
-                print_if_cli("Skipping set of chunks. " .count(strip_statement_with_curly_braces($chunks_list)). " chunk(s) is not enough to establish mapping ");
-                continue;
-            }
+		$lines = explode("\n", extract_body($script['content']));
+        $time = date("d-m-Y H:i:s");
+        print_if_cli("[$time: $row_count/$total_row_count, matches: $partial_matches, $total_matches] analyzing script ".$script['script_id']);
+		foreach($filtered_chunks as $script_id => $chunks_list) {
+//            if(count(strip_statement_with_curly_braces($chunks_list)) < 3) {
+//                //print_if_cli("Skipping set of chunks. " .count(strip_statement_with_curly_braces($chunks_list)). " chunk(s) is not enough to establish mapping ");
+//                $skipped_count++;
+//                continue;
+//            }
 			if(find_chunks($lines, $chunks_list)) {
 				print_if_cli("FOUND all chunks (from script id " .$script_id. ") in script with id " . $script['id']);
                 $is_completed = 1;
@@ -65,6 +78,7 @@
 				}
 			}
 		}
+        $row_count++;
 	}
     
 	print_if_cli("Total number of matches: ".$total_matches);
